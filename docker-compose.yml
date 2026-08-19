@@ -1,0 +1,16 @@
+services:
+    teamwork_db:
+        image: mysql:8.3
+        container_name: moaawen_db
+        ports:
+            - "3310:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: secret456
+            MYSQL_DATABASE: moaawen
+            MYSQL_USER: user456
+            MYSQL_PASSWORD: secret456
+        networks:
+            - moaawennetwork
+
+networks:
+    moaawennetwork:

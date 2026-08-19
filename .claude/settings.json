@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan *)",
+      "Bash(pip3 show *)",
+      "Bash(pip3 install *)",
+      "Bash(curl -s http://127.0.0.1:8000/api/v1/pages/privacy_policy)",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s http://127.0.0.1:8000/api/v1/pages/privacy_policy -H \"Accept: application/json\")",
+      "Bash(curl -s -X POST http://127.0.0.1:8000/api/auth/login -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"mayesh@vscourse.com\",\"password\":\"Info@123\"}')",
+      "Bash(curl -s http://127.0.0.1:8080/api/auth/login -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"mayesh@vscourse.com\",\"password\":\"Info@123\"}')",
+      "Bash(curl -sv http://127.0.0.1:8080/api/auth/login -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"mayesh@vscourse.com\",\"password\":\"Info@123\"}')",
+      "Bash(cat /tmp/laravel_serve.log | head -30)",
+      "Read(//private/tmp/**)",
+      "Bash(curl -s http://127.0.0.1:9090/api/auth/login -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"mayesh@vscourse.com\",\"password\":\"Info@123\"}')",
+      "Bash(curl -s http://127.0.0.1:9090/api/auth/login -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"info@moawen.sa\",\"password\":\"Info@123\"}')",
+      "Bash(curl -s http://127.0.0.1:9090/api/auth/login -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{\"email\":\"dudley83@example.net\",\"password\":\"password@123\"}')",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('data',{}\\).get\\('access_token','FAIL'\\)[:40] if not d.get\\('error'\\) else 'ERROR: '+d['message']\\)\")",
+      "Bash(python3 -m pytest test_service_approval.py test_category_fix.py -v)"
+    ]
+  }
+}
