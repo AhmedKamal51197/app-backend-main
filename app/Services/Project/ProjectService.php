@@ -39,7 +39,8 @@ class ProjectService
         if ($isUserProjects) {
             $query->where('user_id', $userId);
         } else {
-            $query->whereNotIn('status', [ProjectStatusEnum::CANCELLED->value, ProjectStatusEnum::DRAFT->value]);
+            $query->whereNotIn('status', [ProjectStatusEnum::CANCELLED->value, ProjectStatusEnum::DRAFT->value])
+                  ->where('is_approved', true);
         }
 
         if (!empty($search)) {
@@ -85,6 +86,7 @@ class ProjectService
                 'user_id' => $user->id,
                 'category_id' => Category::where('uuid', $data['category_id'])->value('id'),
                 'sub_category_id' => isset($data['sub_category_id']) ? SubCategory::where('uuid', $data['sub_category_id'])->value('id') : null,
+                'is_approved' => false,
             ]);
 
             if (isset($data['attachments'])) {

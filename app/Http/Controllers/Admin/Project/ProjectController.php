@@ -80,6 +80,34 @@ class ProjectController extends BaseAdminController
     }
 
     /**
+     * Toggle project approval status
+     *
+     * @param Project $project
+     *
+     * @return JsonResponse
+     */
+    public function approve(Project $project): JsonResponse
+    {
+        $project->update(['is_approved' => !$project->is_approved]);
+
+        return $this->jsonSuccess(ProjectResource::make($project));
+    }
+
+    /**
+     * Reject (unapprove) a project
+     *
+     * @param Project $project
+     *
+     * @return JsonResponse
+     */
+    public function reject(Project $project): JsonResponse
+    {
+        $project->update(['is_approved' => false]);
+
+        return $this->jsonSuccess(ProjectResource::make($project), __('Project rejected successfully'));
+    }
+
+    /**
      * Reject cancellation request
      *
      * @param Project $project

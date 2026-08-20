@@ -21,4 +21,4 @@ Route::prefix('password')->group(function () {
 /**
  * Reset Password Routes
  */
-require_once('Api/User/reset_password_routes.php');
+require('Api/User/reset_password_routes.php');

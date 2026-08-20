@@ -34,7 +34,8 @@ class Project extends Model
         'end_date' => 'datetime',
         'cancelled_at' => 'datetime',
         'completed_at' => 'datetime',
-        'started_at' => 'datetime'
+        'started_at' => 'datetime',
+        'is_approved' => 'boolean'
     ];
 
     /**

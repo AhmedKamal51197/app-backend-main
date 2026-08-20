@@ -28,6 +28,7 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
+            'is_approved' => $this->is_approved,
             'min_price' => $this->min_price,
             'max_price' => $this->max_price,
             'time' => $this->time,

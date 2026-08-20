@@ -81,6 +81,8 @@ class RolesAndPermissionsSeeder extends Seeder
             // Projects Permissions
             'Index Projects' => 'عرض المشاريع',
             'Details Projects' => 'تفاصيل المشاريع',
+            'Approve Projects' => 'قبول المشاريع',
+            'Reject Projects' => 'رفض المشاريع',
             'Approve Project Cancellation' => 'قبول إلغاء المشروع',
             'Reject Project Cancellation' => 'رفض إلغاء المشروع',
 
