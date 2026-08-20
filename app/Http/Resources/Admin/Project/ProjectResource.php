@@ -31,6 +31,7 @@ class ProjectResource extends JsonResource
             'max_price' => $this->max_price,
             'time' => $this->time,
             'status' => $this->status,
+            'is_approved' => $this->is_approved,
             'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
             'end_date' => $this->end_date?->format('Y-m-d H:i:s'),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
