@@ -90,6 +90,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'Index Services' => 'عرض الخدمات',
             'Details Services' => 'تفاصيل الخدمات',
             'Toggle Service Visibility' => 'إخفاء/إظهار الخدمات',
+            'Approve Services' => 'اعتماد الخدمات',
             'Delete Services' => 'حذف الخدمات',
 
             // Portfolios Permissions

@@ -101,6 +101,10 @@ class ServiceController extends BaseApiController
      */
     public function show(Service $service): JsonResponse
     {
+        if (!$service->is_approved) {
+            abort(404);
+        }
+
         $service->load(['attachments', 'category', 'skills', 'skills.skill', 'packages', 'subCategory']);
 
         return $this->jsonSuccess(ServiceResource::make($service));

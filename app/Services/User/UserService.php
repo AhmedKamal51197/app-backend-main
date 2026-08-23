@@ -173,6 +173,7 @@ class UserService
 //            ->where('custom_offer', '=', false)
             ->with('user')
             ->where('type', '=', ServiceTypeEnum::ONE_TIME->value)
+            ->where('is_approved', '=', true)
             ->whereHas('user', function ($query) {
                 $query->where('status', UserStatusEnum::ACTIVE->value)
                     ->whereHas('kycs', function ($query) {
@@ -185,6 +186,7 @@ class UserService
             ->where('is_enabled', '=', true)
             ->with(['attachments', 'packages'])
             ->with('user')
+            ->where('is_approved', '=', true)
             ->whereHas('user', function ($query) {
                 $query->where('status', UserStatusEnum::ACTIVE->value)
                     ->whereHas('kycs', function ($query) {

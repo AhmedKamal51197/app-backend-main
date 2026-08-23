@@ -34,6 +34,7 @@ class HomeService
                     });
             })
             ->where('hidden', '=', false)
+            ->where('is_approved', '=', true)
             ->where('type', '=', ServiceTypeEnum::ONE_TIME->value)
             ->orderByDesc('created_at')
             ->paginate($perPage);
@@ -58,6 +59,7 @@ class HomeService
                     });
             })
             ->where('hidden', '=', false)
+            ->where('is_approved', '=', true)
             ->where('custom_offer', '=', false)
             ->orderByDesc('created_at')
             ->paginate($perPage);

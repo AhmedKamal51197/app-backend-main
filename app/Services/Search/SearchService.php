@@ -32,6 +32,7 @@ class SearchService
             ->with(['attachments', 'category', 'skills', 'skills.skill', 'user', 'subCategory', 'packages'])
             ->where('type', '=', ServiceTypeEnum::ONE_TIME->value)
             ->where('hidden', '=', false)
+            ->where('is_approved', '=', true)
             ->orderByDesc('created_at');
 
         if (!empty($data['sub_category_id'])) {
@@ -44,6 +45,7 @@ class SearchService
             ->with(['attachments', 'category', 'skills', 'skills.skill', 'user', 'subCategory', 'packages'])
             ->where('type', '=', ServiceTypeEnum::PART_TIME->value)
             ->where('hidden', '=', false)
+            ->where('is_approved', '=', true)
             ->orderByDesc('created_at');
 
         // Filter by sub_category_id if provided
@@ -128,7 +130,8 @@ class SearchService
         $query = Service::query()
             ->with(['user', 'packages', 'attachments'])
             ->where('type', $type)
-        ->where('hidden', '=', false);
+        ->where('hidden', '=', false)
+        ->where('is_approved', '=', true);
 
         if (!is_null($categoryId)) {
             $query->where('category_id', $categoryId);

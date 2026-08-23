@@ -38,6 +38,7 @@ class ServiceResource extends JsonResource
             'rate' => $this->averageRate(),
             'rates' => $this->ratingsCount(),
             'is_favorite' => $this->isFavorite(),
+            'is_approved' => $this->is_approved,
             'purchase_count' => $this->when(isset($this->purchase_count), $this->purchase_count),
             'total_revenue' => $this->when(isset($this->total_revenue), $this->total_revenue),
             'first_package_price' => $this->when(isset($this->first_package_price), $this->first_package_price),
