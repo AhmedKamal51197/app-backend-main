@@ -12,4 +12,5 @@ enum PaymentGatewaysEnum: string
     use EnumToArray;
 
     case MYFATOORAH = "myfatoorah";
+    case TAP = "tap";
 }

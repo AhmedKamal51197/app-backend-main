@@ -14,6 +14,7 @@ use App\Models\ServicePackage;
 use App\Models\User;
 use App\Services\Notifications\OrderNotificationService;
 use App\Services\Payment\MyFatoorahService;
+use App\Services\Payment\TapService;
 use App\Services\Receipt\ReceiptService;
 use App\Services\Wallet\WalletService;
 use Exception;
@@ -53,19 +54,24 @@ class RenewOrderService
                 'key' => 'seeker_renew',
             ])->first();
 
+            $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
+
             $checkout = PaymentGatewayCheckout::create([
                 'amount' => $package->getAttribute('price') + ($package->getAttribute('price') * $commissionSetting->value),
                 'payable_id' => $order->getAttribute('id'),
                 'payable_type' => Order::class,
                 'user_id' => $user->getAttribute('id'),
-                "payment_gateway" => PaymentGatewaysEnum::MYFATOORAH->value,
+                "payment_gateway" => $gateway->value,
             ]);
 
-            $myFatoorahCheckout = $this->myFatoorahService->checkout(request()->user(), $checkout, $data['payment_method_id']);
+            // Resolved here because MyFatoorahService builds this service by hand with a single argument.
+            $gatewayCheckout = $gateway === PaymentGatewaysEnum::TAP
+                ? app(TapService::class)->checkout($user, $checkout)
+                : $this->myFatoorahService->checkout(request()->user(), $checkout, $data['payment_method_id']);
 
             DB::commit();
 
-            return $myFatoorahCheckout;
+            return $gatewayCheckout;
 
         } catch (Exception $exception) {
             DB::rollBack();
