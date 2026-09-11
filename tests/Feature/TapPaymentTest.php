@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
+use Laravel\Passport\Passport;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -332,6 +333,67 @@ class TapPaymentTest extends TestCase
         $this->assertTrue((bool) $checkout->fresh()->is_processed);
     }
 
+    // ------------------------------------------------- status (mobile app)
+
+    public function test_status_endpoint_verifies_with_tap_and_reports_paid(): void
+    {
+        $this->fakeRetrieve($this->charge('CAPTURED'));
+        $this->expectOrders(1);
+        $checkout = $this->checkout();
+        Passport::actingAs($checkout->user);
+
+        $this->getJson(route('checkouts.status', $checkout->uuid))
+            ->assertOk()
+            ->assertJsonPath('error', false)
+            ->assertJsonPath('data.reference', $checkout->uuid)
+            ->assertJsonPath('data.status', 'paid')
+            ->assertJsonPath('data.gateway_status', 'CAPTURED')
+            ->assertJsonPath('data.currency', 'USD');
+
+        // Already paid: answered from the database, no second call to Tap and no second order.
+        $this->getJson(route('checkouts.status', $checkout->uuid))->assertJsonPath('data.status', 'paid');
+        $this->assertCount(1, Http::recorded());
+    }
+
+    public function test_status_endpoint_reports_failed_and_pending_payments(): void
+    {
+        $this->fakeRetrieve(fn (Request $request) => Http::response(str_ends_with($request->url(), 'chg_TS0001')
+            ? $this->charge('DECLINED')
+            : $this->charge('INITIATED', ['id' => 'chg_TS0002'])));
+        $this->expectOrders(0);
+        $declined = $this->checkout();
+        $pending = $this->checkout(reference: 'chg_TS0002');
+
+        Passport::actingAs($declined->user);
+        $this->getJson(route('checkouts.status', $declined->uuid))->assertJsonPath('data.status', 'failed');
+
+        Passport::actingAs($pending->user);
+        $this->getJson(route('checkouts.status', $pending->uuid))->assertJsonPath('data.status', 'pending');
+    }
+
+    public function test_status_endpoint_hides_other_users_checkouts(): void
+    {
+        Http::fake();
+        $checkout = $this->checkout();
+        Passport::actingAs(User::create([
+            'name' => 'Someone Else',
+            'email' => Str::random(8).'@example.com',
+            'password' => bcrypt('secret-password'),
+            'active' => true,
+        ]));
+
+        $this->getJson(route('checkouts.status', $checkout->uuid))->assertNotFound();
+
+        Http::assertNothingSent();
+    }
+
+    public function test_status_endpoint_requires_authentication(): void
+    {
+        $checkout = $this->checkout();
+
+        $this->getJson(route('checkouts.status', $checkout->uuid))->assertUnauthorized();
+    }
+
     // --------------------------------------------------------------- helpers
 
     private function expectOrders(int $times): void
@@ -347,6 +409,7 @@ class TapPaymentTest extends TestCase
             'name' => 'Test Buyer',
             'email' => Str::random(8).'@example.com',
             'password' => bcrypt('secret-password'),
+            'active' => true,
         ]);
 
         return PaymentGatewayCheckout::create(array_merge([
