@@ -66,6 +66,8 @@ class TapReturnController extends Controller
         $query = http_build_query(array_filter([
             'reference' => $checkout?->getAttribute('uuid'),
             'status' => $status,
+            // The mobile app closes its payment WebView when it sees `payment_result=`.
+            'payment_result' => $status === 'paid' ? 'success' : $status,
         ]));
 
         return redirect()->away($base.(str_contains($base, '?') ? '&' : '?').$query);

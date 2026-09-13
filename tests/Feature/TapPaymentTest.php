@@ -64,6 +64,7 @@ class TapPaymentTest extends TestCase
         $result = app(TapService::class)->checkout($checkout->user, $checkout);
 
         $this->assertSame($this->charge('INITIATED')['transaction']['url'], $result['url']);
+        $this->assertSame($result['url'], $result['payment_url']);
         $this->assertSame($checkout->uuid, $result['reference']);
         $this->assertSame('chg_TS0001', $checkout->fresh()->gateway_reference);
 
@@ -203,7 +204,7 @@ class TapPaymentTest extends TestCase
         $checkout = $this->checkout();
 
         $this->get(route('tap.return', ['tap_id' => 'chg_TS0001', 'status' => 'whatever']))
-            ->assertRedirect('https://front.test/payment/success?reference='.$checkout->uuid.'&status=paid');
+            ->assertRedirect('https://front.test/payment/success?reference='.$checkout->uuid.'&status=paid&payment_result=success');
     }
 
     public function test_return_for_a_declined_charge_redirects_to_failure(): void
@@ -213,15 +214,15 @@ class TapPaymentTest extends TestCase
         $checkout = $this->checkout();
 
         $this->get(route('tap.return', ['tap_id' => 'chg_TS0001']))
-            ->assertRedirect('https://front.test/payment/failure?reference='.$checkout->uuid.'&status=failed');
+            ->assertRedirect('https://front.test/payment/failure?reference='.$checkout->uuid.'&status=failed&payment_result=failed');
     }
 
     public function test_return_with_unknown_or_malformed_ids_never_calls_tap(): void
     {
         Http::fake();
 
-        $this->get(route('tap.return', ['tap_id' => 'chg_FORGED']))->assertRedirect('https://front.test/payment/failure?status=failed');
-        $this->get(route('tap.return', ['tap_id' => '../charges']))->assertRedirect('https://front.test/payment/failure?status=failed');
+        $this->get(route('tap.return', ['tap_id' => 'chg_FORGED']))->assertRedirect('https://front.test/payment/failure?status=failed&payment_result=failed');
+        $this->get(route('tap.return', ['tap_id' => '../charges']))->assertRedirect('https://front.test/payment/failure?status=failed&payment_result=failed');
 
         Http::assertNothingSent();
     }

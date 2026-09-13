@@ -102,6 +102,8 @@ class TapService
             'id' => $charge['id'],
             'reference' => $checkout->getAttribute('uuid'),
             'url' => $url,
+            // The mobile app reads the payment page from `payment_url`.
+            'payment_url' => $url,
         ];
     }
 
