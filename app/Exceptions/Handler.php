@@ -110,7 +110,7 @@ class Handler extends ExceptionHandler
                     : Response::HTTP_BAD_REQUEST;
             }
 
-            return $this->jsonError($errorMessage, $errorCode);
+            return $this->jsonError($errorMessage, $errorCode, $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
         }
 
         return parent::render($request, $e);
