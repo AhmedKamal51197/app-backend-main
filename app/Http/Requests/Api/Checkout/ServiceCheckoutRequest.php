@@ -34,7 +34,8 @@ class ServiceCheckoutRequest extends FormRequest
 
         return [
             'package_id' => ['required', 'string', 'exists:service_packages,uuid'],
-            'payment_method_id' => ['required', 'numeric']
+            // Tap shows its own payment page, so the MyFatoorah method id is only needed without Tap
+            'payment_method_id' => [config('tap.enabled') ? 'nullable' : 'required', 'numeric']
         ];
     }
 

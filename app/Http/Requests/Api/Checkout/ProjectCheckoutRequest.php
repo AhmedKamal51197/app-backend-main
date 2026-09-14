@@ -33,7 +33,8 @@ class ProjectCheckoutRequest extends FormRequest
     {
         return [
             'project_id' => ['required', 'string', 'exists:projects,uuid'],
-            'payment_method_id' => ['required', 'numeric']
+            // Tap shows its own payment page, so the MyFatoorah method id is only needed without Tap
+            'payment_method_id' => [config('tap.enabled') ? 'nullable' : 'required', 'numeric']
         ];
     }
 

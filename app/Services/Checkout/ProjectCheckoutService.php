@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Proposal;
 use App\Models\User;
 use App\Services\Payment\MyFatoorahService;
+use App\Services\Payment\TapService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +23,9 @@ class ProjectCheckoutService
      * Load the checkout service
      *
      * @param MyFatoorahService $myFatoorahService
+     * @param TapService $tapService
      */
-    public function __construct(protected MyFatoorahService $myFatoorahService)
+    public function __construct(protected MyFatoorahService $myFatoorahService, protected TapService $tapService)
     {
     }
 
@@ -46,19 +48,23 @@ class ProjectCheckoutService
 
             $proposal =  $project->selectedProposal;
 
+            $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
+
             $checkout = PaymentGatewayCheckout::create([
                 'amount' => $proposal->price + ($proposal->price * $commissionSetting->value),
                 'payable_id' => $project->id,
                 'payable_type' => Project::class,
                 'user_id' => $user->id,
-                'payment_gateway' => PaymentGatewaysEnum::MYFATOORAH->value,
+                'payment_gateway' => $gateway->value,
             ]);
 
-            $myFatoorahCheckout = $this->myFatoorahService->checkout($user, $checkout, $data['payment_method_id']);
+            $gatewayCheckout = $gateway === PaymentGatewaysEnum::TAP
+                ? $this->tapService->checkout($user, $checkout)
+                : $this->myFatoorahService->checkout($user, $checkout, $data['payment_method_id']);
 
             DB::commit();
 
-            return $myFatoorahCheckout;
+            return $gatewayCheckout;
 
         } catch (Exception $exception) {
             DB::rollBack();

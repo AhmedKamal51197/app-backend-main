@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Checkout\CheckoutStatusController;
 use App\Http\Controllers\Api\Checkout\MyFatoorahPaymentMethodsController;
 use App\Http\Controllers\Api\Checkout\OrderCheckoutController;
 use App\Http\Controllers\Api\Checkout\ProjectCheckoutController;
@@ -11,4 +12,7 @@ Route::prefix('checkouts')->middleware('auth:api')->group(callback: function () 
     Route::post('/order', [OrderCheckoutController::class, 'checkout']);
     Route::post('/project', [ProjectCheckoutController::class, 'checkout']);
     Route::get('/payment-methods', [MyFatoorahPaymentMethodsController::class, 'checkout']);
+    Route::get('/{reference}/status', [CheckoutStatusController::class, 'show'])
+        ->middleware('throttle:30,1')
+        ->name('checkouts.status');
 });

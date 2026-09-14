@@ -33,7 +33,8 @@ class OrderCheckoutRequest extends FormRequest
     {
         return [
             'order_id' => ['required', 'string', 'exists:orders,uuid'],
-            'payment_method_id' => ['required', 'numeric']
+            // Tap shows its own payment page, so the MyFatoorah method id is only needed without Tap
+            'payment_method_id' => [config('tap.enabled') ? 'nullable' : 'required', 'numeric']
         ];
     }
 
