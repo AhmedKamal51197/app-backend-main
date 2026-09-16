@@ -26,6 +26,10 @@ return [
     // Currency the checkout amounts are expressed in.
     'currency' => env('TAP_CURRENCY', 'SAR'),
 
+    // Language of the Tap hosted payment page: "en" or "ar".
+    // English keeps the card form left-to-right so the expiry/CVV fields render correctly.
+    'lang_code' => env('TAP_LANG_CODE', 'en'),
+
     // Public URLs Tap calls back. Default to the "tap.webhook" / "tap.return" routes.
     'webhook_url' => env('TAP_WEBHOOK_URL'),
     'return_url' => env('TAP_RETURN_URL'),
