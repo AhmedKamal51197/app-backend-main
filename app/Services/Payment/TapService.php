@@ -369,8 +369,11 @@ class TapService
     {
         $currency = strtoupper((string) ($charge['currency'] ?? ''));
 
+        // The captured amount must be in the checkout currency and at least the amount
+        // we asked for. Tap can round the charged amount up by a minor unit, so an exact
+        // match would reject legitimate payments; underpayment is still refused.
         return $currency === $this->checkoutCurrency($checkout)
-            && Money::toMinor($charge['amount'] ?? 0, $currency) === Money::toMinor($checkout->getAttribute('amount'), $currency);
+            && Money::toMinor($charge['amount'] ?? 0, $currency) >= Money::toMinor($checkout->getAttribute('amount'), $currency);
     }
 
     private function refundsOf(PaymentGatewayCheckout $checkout)

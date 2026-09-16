@@ -88,6 +88,7 @@ class TapClient
 
         return Http::baseUrl(rtrim((string) config('tap.base_url'), '/'))
             ->withToken($secretKey)
+            ->withHeaders(['lang_code' => (string) config('tap.lang_code', 'en')])
             ->acceptJson()
             ->asJson()
             ->timeout((int) config('tap.timeout', 20))
