@@ -24,6 +24,8 @@ class PaymentRequestResource extends JsonResource
             'amount' => round($this->amount ?? 0, 2),
             'status' => $this->status,
             'notes' => $this->notes,
+            // Alias of notes so every payment object exposes a `reason` field (e.g. why a withdrawal was rejected).
+            'reason' => $this->notes,
             'user' => UserMiniResource::make($this->whenLoaded('user')),
             'current_balance' => $this->when(isset($this->current_balance), round($this->current_balance ?? 0, 2)),
             'withdrawal_methods' => $this->when(isset($this->withdrawal_methods), $this->withdrawal_methods ?? []),

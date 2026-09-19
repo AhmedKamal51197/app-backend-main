@@ -37,6 +37,8 @@ class OrderResource extends JsonResource
             'price' => $this->price,
             'commissions' => $this->commissions,
             'status' => $this->status,
+            // Single reason field for the frontend, populated when the order was cancelled or disputed.
+            'reason' => $this->cancellation_reason ?? $this->disputed_reason,
             'approved_at' => $this->approved_at?->format('Y-m-d H:i:s'),
             'released_at' => $this->released_at?->format('Y-m-d H:i:s'),
             'cancelled_at' => $this->cancelled_at?->format('Y-m-d H:i:s'),

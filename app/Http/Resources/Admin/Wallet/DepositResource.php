@@ -27,6 +27,10 @@ class DepositResource extends JsonResource
             'credit_amount' => round($this->credit, 2),
             'balance_after' => round($this->balance_after ?? 0, 2),
             'payment_method' => $this->referencable?->payment_gateway ?? null,
+            // A deposit row exists only once the money was credited, so it is always completed.
+            // reason is kept for a consistent shape across payment objects.
+            'status' => 'completed',
+            'reason' => null,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
