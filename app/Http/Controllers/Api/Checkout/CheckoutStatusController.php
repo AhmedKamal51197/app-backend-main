@@ -66,9 +66,13 @@ class CheckoutStatusController extends BaseApiController
 
         $paidAt = $checkout->getAttribute('paid_at');
 
+        $status = $this->status($checkout);
+
         return $this->jsonSuccess([
             'reference' => $checkout->getAttribute('uuid'),
-            'status' => $this->status($checkout),
+            'status' => $status,
+            // Present in every response; carries the failure cause when the payment did not go through.
+            'reason' => $this->reason($checkout, $status),
             'gateway' => $checkout->getAttribute('payment_gateway'),
             'gateway_status' => $checkout->getAttribute('gateway_status'),
             'amount' => (float) $checkout->getAttribute('amount'),
@@ -97,5 +101,22 @@ class CheckoutStatusController extends BaseApiController
         return in_array(strtoupper((string) $checkout->getAttribute('gateway_status')), self::FAILED_STATUSES, true)
             ? 'failed'
             : 'pending';
+    }
+
+    /**
+     * Human-facing reason for the current status. Null unless the payment failed.
+     *
+     * @param PaymentGatewayCheckout $checkout
+     * @param string $status
+     *
+     * @return string|null
+     */
+    private function reason(PaymentGatewayCheckout $checkout, string $status): ?string
+    {
+        if ($status !== 'failed') {
+            return null;
+        }
+
+        return (string) $checkout->getAttribute('gateway_status') ?: 'failed';
     }
 }

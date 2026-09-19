@@ -24,6 +24,8 @@ class PaymentRequestResource extends JsonResource
             'amount' => $this->amount,
             'status' => $this->status,
             'notes' => $this->notes,
+            // Alias of notes so every payment object exposes a `reason` field.
+            'reason' => $this->notes,
             'user' => UserMiniResource::make($this->whenLoaded('user')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
