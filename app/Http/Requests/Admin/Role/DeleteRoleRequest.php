@@ -29,7 +29,10 @@ class DeleteRoleRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            // The role to move the current role's admins to before it is deleted.
+            'new_role_id' => ['nullable', 'string', 'exists:roles,uuid'],
+        ];
     }
 
     /**

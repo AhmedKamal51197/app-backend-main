@@ -141,7 +141,13 @@ class RoleService
         $usersCount = $role->users()->count();
 
         if ($usersCount > 0) {
-            $newRole = Role::where('name', 'user')->first();
+            // Move the affected admins to the role chosen in the dialog (new_role_id),
+            // falling back to the default 'user' role when none was provided.
+            $newRole = !empty($data['new_role_id'])
+                ? Role::where('uuid', $data['new_role_id'])->first()
+                : null;
+
+            $newRole ??= Role::where('name', 'user')->first();
 
             if (!$newRole) {
                 throw new Exception(__("Fallback user role not found"));

@@ -54,6 +54,20 @@ class RolesAndPermissionsSeeder extends Seeder
             ]
         );
 
+        // Default base role. Deleting a custom role falls back to this when no target is chosen,
+        // so it must always exist.
+        Role::updateOrCreate(
+            ['name' => 'user', 'guard_name' => 'api'],
+            [
+                'uuid' => Str::uuid(),
+                'name_ar' => 'مستخدم',
+                'allowed_user' => true,
+                'is_active' => true,
+                'description' => 'Default base role',
+                'type' => RoleTypeEnum::VIEW_ONLY->value,
+            ]
+        );
+
         // Create all permissions
         $permissions = [
             // Users Permissions
