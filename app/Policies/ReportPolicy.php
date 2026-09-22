@@ -24,4 +24,17 @@ class ReportPolicy
         return $report->user_id === $user->id &&
             $report->status->value !== ReportStatusEnum::CLOSED->value;
     }
+
+    /**
+     * Determine if the user can delete the report.
+     * The owner can delete their report at any status, including closed ones.
+     *
+     * @param User $user
+     * @param Report $report
+     * @return bool
+     */
+    public function delete(User $user, Report $report): bool
+    {
+        return $report->user_id === $user->id;
+    }
 }

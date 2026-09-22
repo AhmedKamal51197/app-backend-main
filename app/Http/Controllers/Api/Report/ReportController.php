@@ -107,7 +107,7 @@ class ReportController extends BaseApiController
      */
     public function destroy(Report $report): JsonResponse
     {
-        $this->authorize('own', $report);
+        $this->authorize('delete', $report);
 
         $this->service->delete($report);
 
