@@ -75,6 +75,22 @@ class Portfolio extends Model
     }
 
     /**
+     * Define the relation with duration
+     */
+    public function duration(): BelongsTo
+    {
+        return $this->belongsTo(Duration::class);
+    }
+
+    /**
+     * Define the relation with industry
+     */
+    public function industry(): BelongsTo
+    {
+        return $this->belongsTo(Industry::class);
+    }
+
+    /**
      * Define the favorites relations
      */
     public function favorites(): HasMany
