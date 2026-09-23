@@ -35,7 +35,7 @@ class UpdateBankAccountRequest extends FormRequest
             'bank_address' => ['sometimes', 'string', 'max:255', 'min:5'],
             'branch_name' => ['sometimes', 'string', 'max:255', 'min:3'],
             'user_address' => ['sometimes', 'string', 'max:255', 'min:5'],
-            'country_id' => ['sometimes', 'integer', 'exists:countries,id'],
+            'country_id' => ['sometimes', 'string', 'exists:countries,uuid'],
         ];
     }
 

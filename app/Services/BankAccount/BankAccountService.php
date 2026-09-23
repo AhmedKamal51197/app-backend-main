@@ -4,6 +4,7 @@ namespace App\Services\BankAccount;
 
 use App\Events\LogExceptionEvent;
 use App\Models\BankAccount;
+use App\Models\Country;
 use App\Models\User;
 use App\Notifications\Account\BankAccountAddedNotification;
 use Exception;
@@ -41,17 +42,22 @@ class BankAccountService
         try {
             DB::beginTransaction();
 
-            $bankAccount = BankAccount::updateOrCreate([
-                'user_name' => $data['user_name'],
-                'iban' => $data['iban'],
-                'swift_code' => $data['swift_code'],
-                'bank_name' => $data['bank_name'],
-                'bank_address' => $data['bank_address'],
-                'branch_name' => $data['branch_name'],
-                'user_address' => $data['user_address'],
-                'country_id' => $data['country_id'],
-                'user_id' => $user->getAttribute('id')
-            ]);
+            // The API exposes country by uuid; resolve it to the numeric foreign key.
+            $countryId = Country::where('uuid', $data['country_id'])->value('id');
+
+            $bankAccount = BankAccount::updateOrCreate(
+                ['user_id' => $user->getAttribute('id')],
+                [
+                    'user_name' => $data['user_name'],
+                    'iban' => $data['iban'],
+                    'swift_code' => $data['swift_code'],
+                    'bank_name' => $data['bank_name'],
+                    'bank_address' => $data['bank_address'],
+                    'branch_name' => $data['branch_name'],
+                    'user_address' => $data['user_address'],
+                    'country_id' => $countryId,
+                ]
+            );
 
             DB::commit();
 
@@ -86,6 +92,10 @@ class BankAccountService
 
             if (!$bankAccount) {
                 throw new Exception(__('User doesnt have a bank account'));
+            }
+
+            if (isset($data['country_id'])) {
+                $data['country_id'] = Country::where('uuid', $data['country_id'])->value('id');
             }
 
             $bankAccount->update($data);

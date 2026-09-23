@@ -35,7 +35,7 @@ class StoreBankAccountRequest extends FormRequest
             'bank_address' => ['required', 'string', 'max:255', 'min:5'],
             'branch_name' => ['required', 'string', 'max:255', 'min:3'],
             'user_address' => ['required', 'string', 'max:255', 'min:5'],
-            'country_id' => ['required', 'integer', 'exists:countries,id'],
+            'country_id' => ['required', 'string', 'exists:countries,uuid'],
         ];
     }
 
