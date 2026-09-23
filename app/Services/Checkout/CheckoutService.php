@@ -73,4 +73,45 @@ class CheckoutService
             throw $exception;
         }
     }
+
+    /**
+     * Start a wallet top-up. The balance is only credited after the payment is
+     * confirmed (see TapService::fulfil), never up front.
+     *
+     * @param User $user
+     * @param array $data
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function walletCheckout(User $user, array $data): array
+    {
+        DB::beginTransaction();
+        try {
+            $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
+
+            $checkout = PaymentGatewayCheckout::create([
+                'amount' => $data['amount'],
+                'payable_id' => $user->getAttribute('id'),
+                'payable_type' => User::class,
+                'user_id' => $user->getAttribute('id'),
+                'payment_gateway' => $gateway->value,
+            ]);
+
+            $gatewayCheckout = $gateway === PaymentGatewaysEnum::TAP
+                ? $this->tapService->checkout($user, $checkout)
+                : $this->myFatoorahService->checkout($user, $checkout, $data['payment_method_id'] ?? null);
+
+            DB::commit();
+
+            return $gatewayCheckout;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            event(new LogExceptionEvent($exception));
+
+            throw $exception;
+        }
+    }
 }

@@ -12,6 +12,7 @@ use App\Models\ServicePackage;
 use App\Models\User;
 use App\Services\Order\OrderService;
 use App\Services\Order\RenewOrderService;
+use App\Services\Wallet\WalletService;
 use App\Services\Payment\Tap\TapClient;
 use App\Services\Payment\Tap\TapException;
 use App\Services\Payment\Tap\TapUnknownReferenceException;
@@ -312,6 +313,13 @@ class TapService
     private function fulfil(PaymentGatewayCheckout $checkout): void
     {
         $payable = $checkout->payable;
+
+        // A wallet top-up: credit the paid amount now that the payment is confirmed.
+        if ($payable instanceof User) {
+            WalletService::createWallet($payable, 0, (float) $checkout->getAttribute('amount'), 'wallet_topup', $checkout);
+
+            return;
+        }
 
         if ($payable instanceof Order) {
             app(RenewOrderService::class)->store($checkout, $payable, $checkout->user);
