@@ -37,4 +37,17 @@ class ReportPolicy
     {
         return $report->user_id === $user->id;
     }
+
+    /**
+     * Determine if the user can view the report.
+     * The owner can view their report at any status, including closed ones.
+     *
+     * @param User $user
+     * @param Report $report
+     * @return bool
+     */
+    public function view(User $user, Report $report): bool
+    {
+        return $report->user_id === $user->id;
+    }
 }

@@ -56,7 +56,7 @@ class ReportController extends BaseApiController
      */
     public function show(Report $report): JsonResponse
     {
-        $this->authorize('own', $report);
+        $this->authorize('view', $report);
 
         $report->load(['user', 'responses.sender', 'responses.attachments']);
 
