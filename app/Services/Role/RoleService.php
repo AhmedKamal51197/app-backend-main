@@ -305,4 +305,38 @@ class RoleService
             throw $exception;
         }
     }
+
+    /**
+     * Delete a supervisor: remove their roles and soft-delete the user.
+     * The root administrator is protected.
+     *
+     * @param User $user
+     *
+     * @return bool
+     *
+     * @throws Exception
+     */
+    public function deleteSupervisor(User $user): bool
+    {
+        if ($user->hasRole('root')) {
+            throw new Exception(__('Cannot delete the root administrator'));
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $user->syncRoles([]);
+            $user->delete();
+
+            DB::commit();
+
+            return true;
+
+        } catch (Exception $exception) {
+            event(new LogExceptionEvent($exception));
+            DB::rollBack();
+
+            throw $exception;
+        }
+    }
 }

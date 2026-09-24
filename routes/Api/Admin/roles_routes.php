@@ -12,6 +12,7 @@ Route::prefix('roles')->group(callback: function () {
         Route::get('/{user}', [RoleController::class, 'showSupervisorUser']);
         Route::post('/{user}/edit', [RoleController::class, 'editSupervisor']);
         Route::post('/{user}/update-password', [RoleController::class, 'updateSupervisorPassword']);
+        Route::delete('/{user}/delete', [RoleController::class, 'deleteSupervisor']);
     });
     Route::prefix('{role}')->group(function () {
         Route::get('/', [RoleController::class, 'show'])->middleware('permission:Details Roles');

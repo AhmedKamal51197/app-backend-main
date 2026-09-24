@@ -222,4 +222,19 @@ class RoleController extends BaseAdminController
 
         return $this->jsonSuccess([], __('Supervisor password updated successfully'));
     }
+
+    /**
+     * Delete a supervisor (admin user)
+     *
+     * @param User $user
+     *
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function deleteSupervisor(User $user): JsonResponse
+    {
+        $this->service->deleteSupervisor($user);
+
+        return $this->jsonSuccess([], __('Supervisor deleted successfully'));
+    }
 }
