@@ -30,9 +30,9 @@ class PaymentReceiptNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Payment Receipt')
+            ->subject('إيصال الدفع')
             ->view('receipt', [
-                'title' => 'Payment Receipt 🎉',
+                'title' => 'إيصال الدفع 🎉',
                 'name' => $this->name,
                 'amount' => $this->amount,
                 'date' => $this->date,

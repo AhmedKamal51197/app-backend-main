@@ -43,12 +43,12 @@ class OrderPurchasedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Order Purchased Successfully!')
+            ->subject('تم شراء الطلب بنجاح!')
             ->view('team', [
-                'title' => 'Order Purchased!',
-                'description' => "Your order (" . $this->code . ") for the project " . $this->name . " has been successfully purchased. Thank you for your business!",
+                'title' => 'تم شراء الطلب!',
+                'description' => "تم شراء طلبك (" . $this->code . ") للمشروع " . $this->name . " بنجاح. شكرًا لتعاملك معنا!",
                 'url' => "https://moawen.sa",
-                'button_title' => 'View Your Orders',
+                'button_title' => 'عرض طلباتك',
             ]);
     }
 

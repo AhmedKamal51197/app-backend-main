@@ -32,12 +32,12 @@ class NewLoginNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('New Login to Your Account')
+            ->subject('تسجيل دخول جديد إلى حسابك')
             ->view('team', [
-                'title' => 'New Login Detected',
-                'description' => "We detected a new login to your Moawen account on {$this->loginDate->format('M d, Y')} at {$this->loginTime}. If this was you, no action is needed. If you don't recognize this login, please secure your account immediately.",
+                'title' => 'تم رصد تسجيل دخول جديد',
+                'description' => "رصدنا تسجيل دخول جديد إلى حسابك في معاون بتاريخ {$this->loginDate->format('M d, Y')} الساعة {$this->loginTime}. إذا كان هذا أنت، فلا حاجة لأي إجراء. إذا لم تتعرّف على تسجيل الدخول هذا، فيرجى تأمين حسابك على الفور.",
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Review Security',
+                'button_title' => 'مراجعة الأمان',
             ]);
     }
 

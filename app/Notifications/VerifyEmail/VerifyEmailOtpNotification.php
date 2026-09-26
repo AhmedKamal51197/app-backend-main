@@ -40,12 +40,12 @@ class VerifyEmailOtpNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Verify Your Email Address')
+            ->subject('تحقّق من بريدك الإلكتروني')
             ->view('team', [
-                'title' => 'Welcome to Moawen',
-                'description' => 'Verify your email address to access Moawen features, Your OTP is: ' . $this->otp,
+                'title' => 'مرحبًا بك في معاون',
+                'description' => 'تحقّق من بريدك الإلكتروني للوصول إلى ميزات معاون، رمز التحقق الخاص بك هو: ' . $this->otp,
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Verify you email',
+                'button_title' => 'تحقّق من بريدك',
             ]);
     }
 

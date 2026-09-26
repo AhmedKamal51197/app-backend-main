@@ -27,12 +27,12 @@ class KycNotCompletedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Complete Your KYC Verification')
+            ->subject('أكمل عملية التحقق من هويتك (KYC)')
             ->view('team', [
-                'title' => 'Complete Your KYC Verification 🛡️',
-                'description' => 'We noticed you haven’t completed your KYC verification yet. Please complete the process to unlock all features of your account.',
+                'title' => 'أكمل عملية التحقق من هويتك (KYC) 🛡️',
+                'description' => 'لاحظنا أنك لم تُكمل عملية التحقق من هويتك (KYC) بعد. يرجى إكمال العملية لفتح جميع ميزات حسابك.',
                 'url' => 'https://www.moawen.sa/kyc', // or route('kyc.form')
-                'button_title' => 'Complete KYC Now',
+                'button_title' => 'أكمل التحقق الآن',
             ]);
     }
 

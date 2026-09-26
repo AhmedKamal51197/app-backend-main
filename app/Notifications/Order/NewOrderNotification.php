@@ -43,12 +43,12 @@ class NewOrderNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('You Have a New Order!')
+            ->subject('لديك طلب جديد!')
             ->view('team', [
-                'title' => 'New Order Received!',
-                'description' => "Congratulations! You have received a new order (" . $this->code . ")" . " for the project " . $this->name . ". Please review the details and start working when ready.",
+                'title' => 'استلمت طلبًا جديدًا!',
+                'description' => "مبروك! استلمت طلبًا جديدًا (" . $this->code . ")" . " للمشروع " . $this->name . ". يرجى مراجعة التفاصيل والبدء بالعمل عند الاستعداد.",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View New Order',
+                'button_title' => 'عرض الطلب الجديد',
             ]);
     }
 
@@ -77,8 +77,8 @@ class NewOrderNotification extends Notification
     public function toFcm(object $notifiable): array
     {
         return [
-            'title' => 'New Order Received!',
-            'body' => "You have received a new order (" . $this->code . ") for the project " . $this->name . ".",
+            'title' => 'استلمت طلبًا جديدًا!',
+            'body' => "استلمت طلبًا جديدًا (" . $this->code . ") للمشروع " . $this->name . ".",
             'data' => [
                 'code' => $this->code,
                 'name' => $this->name,

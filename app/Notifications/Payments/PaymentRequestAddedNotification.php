@@ -29,12 +29,12 @@ class PaymentRequestAddedNotification extends Notification implements ShouldQueu
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Payment Request Submitted')
+            ->subject('تم تقديم طلب الدفع')
             ->view('team', [
-                'title' => 'Payment Request Submitted',
-                'description' => "Your payment request for $" . number_format($this->amount, 2) . " has been successfully submitted. We'll review your request and process it within 1-3 business days. You'll receive a notification once it's approved.",
+                'title' => 'تم تقديم طلب الدفع',
+                'description' => "تم تقديم طلب الدفع الخاص بك بمبلغ $" . number_format($this->amount, 2) . " بنجاح. سنراجع طلبك ونعالجه خلال 1-3 أيام عمل. ستصلك رسالة إشعار بمجرد الموافقة عليه.",
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Payment Requests',
+                'button_title' => 'عرض طلبات الدفع',
             ]);
     }
 

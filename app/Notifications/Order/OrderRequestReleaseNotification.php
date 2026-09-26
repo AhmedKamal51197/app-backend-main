@@ -43,12 +43,12 @@ class OrderRequestReleaseNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Requested To Release!')
+            ->subject('تم طلب تحرير طلبك!')
             ->view('team', [
-                'title' => 'Payment Released!',
-                'description' => "Your order " . $this->code . " (" . $this->name . ") has been delivered, You can check it from your orders page . Thank you for using TeamWork!",
+                'title' => 'تم تحرير الدفعة!',
+                'description' => "تم تسليم طلبك " . $this->code . " (" . $this->name . ") ويمكنك مراجعته من صفحة طلباتك. شكرًا لاستخدامك معاون!",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View Order',
+                'button_title' => 'عرض الطلب',
             ]);
     }
 

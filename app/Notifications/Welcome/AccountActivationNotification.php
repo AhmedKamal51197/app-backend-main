@@ -27,12 +27,12 @@ class AccountActivationNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Activate Your Account')
+            ->subject('فعّل حسابك')
             ->view('team', [
-                'title' => 'Welcome to Moawen',
-                'description' => 'To secure your account and unlock all features, please click the button below to activate your Moawen account. If you didnt create this account, feel free to ignore this email. Thanks for your trust, Moawen Team',
+                'title' => 'مرحبًا بك في معاون',
+                'description' => 'لتأمين حسابك وفتح جميع الميزات، يرجى النقر على الزر أدناه لتفعيل حسابك في معاون. إذا لم تقم بإنشاء هذا الحساب، فلا تتردد في تجاهل هذا البريد. شكرًا لثقتك، فريق معاون',
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Activate Account',
+                'button_title' => 'تفعيل الحساب',
             ]);
     }
 

@@ -27,12 +27,12 @@ class AccountSuspendedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Account Suspended')
+            ->subject('تم تعليق حسابك')
             ->view('team', [
-                'title' => 'Account Suspended!!',
-                'description' => 'Your TeamWork account has been suspended. If you believe this is a mistake or want to restore your account, please contact our support team. If you did not perform any suspicious activity, you can safely ignore this message. Thank you for your understanding, TeamWork Team',
+                'title' => 'تم تعليق الحساب!!',
+                'description' => 'تم تعليق حسابك في معاون. إذا كنت تعتقد أن هذا حدث بالخطأ أو ترغب في استعادة حسابك، يرجى التواصل مع فريق الدعم لدينا. إذا لم تقم بأي نشاط مريب، يمكنك تجاهل هذه الرسالة بأمان. شكرًا لتفهمك، فريق معاون',
                 'url' => 'https://api.whatsapp.com/send/?phone=%2B96566445995&text&type=phone_number&app_absent=0',
-                'button_title' => 'Contact Us',
+                'button_title' => 'تواصل معنا',
             ]);
     }
 

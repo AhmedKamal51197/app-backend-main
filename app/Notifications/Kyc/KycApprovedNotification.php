@@ -27,12 +27,12 @@ class KycApprovedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('KYC Verification Approved')
+            ->subject('تمت الموافقة على التحقق من الهوية (KYC)')
             ->view('team', [
-                'title' => 'KYC Verification Approved 🎉',
-                'description' => 'Your KYC verification has been successfully approved. You can now access all features that require verified status. Thank you for completing the process!',
+                'title' => 'تمت الموافقة على التحقق من الهوية (KYC) 🎉',
+                'description' => 'تمت الموافقة على التحقق من هويتك بنجاح. يمكنك الآن الوصول إلى جميع الميزات التي تتطلب حالة موثّقة. شكرًا لإكمالك العملية!',
                 'url' => 'www.moawen.sa',
-                'button_title' => 'Go to Dashboard',
+                'button_title' => 'الانتقال إلى لوحة التحكم',
             ]);
     }
 

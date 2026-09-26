@@ -29,12 +29,12 @@ class PaymentRequestApprovedNotification extends Notification implements ShouldQ
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Payment Request Approved')
+            ->subject('تمت الموافقة على طلب الدفع')
             ->view('team', [
-                'title' => 'Payment Approved!',
-                'description' => "Great news! Your payment request for $" . number_format($this->amount, 2) . " has been approved and processed. The funds should appear in your selected payment method within 1-2 business days.",
+                'title' => 'تمت الموافقة على الدفع!',
+                'description' => "خبر رائع! تمت الموافقة على طلب الدفع الخاص بك بمبلغ $" . number_format($this->amount, 2) . " ومعالجته. من المفترض أن تظهر الأموال في طريقة الدفع التي اخترتها خلال 1-2 يوم عمل.",
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Payment History',
+                'button_title' => 'عرض سجل المدفوعات',
             ]);
     }
 

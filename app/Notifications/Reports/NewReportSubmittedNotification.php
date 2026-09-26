@@ -27,12 +27,12 @@ class NewReportSubmittedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Report Submitted Successfully')
+            ->subject('تم إرسال البلاغ بنجاح')
             ->view('team', [
-                'title' => 'Report Received',
-                'description' => 'Thank you for submitting your report. We take all reports seriously and will investigate the matter promptly. Our team will review the details and take appropriate action if necessary.',
+                'title' => 'تم استلام البلاغ',
+                'description' => 'شكرًا لك على إرسال بلاغك. نحن نتعامل مع جميع البلاغات بجدية وسنحقق في الأمر على الفور. سيراجع فريقنا التفاصيل ويتخذ الإجراء المناسب عند الحاجة.',
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Contact Support',
+                'button_title' => 'تواصل مع الدعم',
             ]);
     }
 

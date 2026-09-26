@@ -43,12 +43,12 @@ class OrderRenewedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Renewed')
+            ->subject('تم تجديد طلبك')
             ->view('team', [
-                'title' => 'Order Renewed!',
-                'description' => "Your order " . $this->code . " for " . $this->name . " has been successfully renewed" .  ". You can view the updated details on the order page.",
+                'title' => 'تم تجديد الطلب!',
+                'description' => "تم تجديد طلبك " . $this->code . " لـ " . $this->name . " بنجاح" .  ". يمكنك عرض التفاصيل المحدّثة في صفحة الطلب.",
                 'url' => "https://moawen.sa/en/order-history/" ,
-                'button_title' => 'View Order',
+                'button_title' => 'عرض الطلب',
             ]);
     }
 

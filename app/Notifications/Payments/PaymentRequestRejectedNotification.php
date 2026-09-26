@@ -29,12 +29,12 @@ class PaymentRequestRejectedNotification extends Notification implements ShouldQ
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Payment Request Rejected')
+            ->subject('تم رفض طلب الدفع')
             ->view('team', [
-                'title' => 'Payment Request Update',
-                'description' => "We regret to inform you that your payment request for $" . number_format($this->amount, 2) . " has been rejected. Please review the requirements and resubmit if needed. Contact support for more details.",
+                'title' => 'تحديث بشأن طلب الدفع',
+                'description' => "يؤسفنا إبلاغك بأنه تم رفض طلب الدفع الخاص بك بمبلغ $" . number_format($this->amount, 2) . " . يرجى مراجعة المتطلبات وإعادة التقديم إذا لزم الأمر. تواصل مع الدعم لمزيد من التفاصيل.",
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Payment Requests',
+                'button_title' => 'عرض طلبات الدفع',
             ]);
     }
 

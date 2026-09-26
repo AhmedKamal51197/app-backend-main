@@ -27,12 +27,12 @@ class WelcomeNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Welcome to Moawen!!')
+            ->subject('مرحبًا بك في معاون!!')
             ->view('team', [
-                'title' => 'Welcome to Moawen',
-                'description' => 'Were excited to have you on board. Start by completing your profile and explore how we can help you launch your projects or offer your services with full safety and trust. Need help? Were here to support you anytime',
+                'title' => 'مرحبًا بك في معاون',
+                'description' => 'يسعدنا انضمامك إلينا. ابدأ بإكمال ملفك الشخصي واكتشف كيف يمكننا مساعدتك في إطلاق مشاريعك أو تقديم خدماتك بأمان وثقة كاملين. هل تحتاج إلى مساعدة؟ نحن هنا لدعمك في أي وقت',
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Complete Your Profile',
+                'button_title' => 'أكمل ملفك الشخصي',
             ]);
     }
 

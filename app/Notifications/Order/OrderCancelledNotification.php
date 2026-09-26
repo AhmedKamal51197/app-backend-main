@@ -43,12 +43,12 @@ class OrderCancelledNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Cancelled')
+            ->subject('تم إلغاء طلبك')
             ->view('team', [
-                'title' => 'Order Cancelled',
-                'description' => "We regret to inform you that your order " . $this->code . " (" . $this->name . ") has been cancelled. For more details or assistance, please visit the order page.",
+                'title' => 'تم إلغاء الطلب',
+                'description' => "يؤسفنا إبلاغك بأنه تم إلغاء طلبك " . $this->code . " (" . $this->name . "). لمزيد من التفاصيل أو المساعدة، يرجى زيارة صفحة الطلب.",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View Order',
+                'button_title' => 'عرض الطلب',
             ]);
     }
 

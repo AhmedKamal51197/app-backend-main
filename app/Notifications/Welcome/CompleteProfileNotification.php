@@ -27,12 +27,12 @@ class CompleteProfileNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Complete Your Profile')
+            ->subject('أكمل ملفك الشخصي')
             ->view('team', [
-                'title' => 'Welcome back!',
-                'description' => "To help us match you with the best opportunities and build trust, please complete your profile to 100%. The more complete and clear your profile is, the better your visibility! We're always here for you, Moawen Team",
+                'title' => 'مرحبًا بعودتك!',
+                'description' => "لمساعدتنا في مطابقتك مع أفضل الفرص وبناء الثقة، يرجى إكمال ملفك الشخصي بنسبة 100%. كلما كان ملفك الشخصي أكثر اكتمالًا ووضوحًا، زادت ظهوريتك! نحن دائمًا هنا من أجلك، فريق معاون",
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Complete Profile Now',
+                'button_title' => 'أكمل ملفك الشخصي الآن',
             ]);
     }
 

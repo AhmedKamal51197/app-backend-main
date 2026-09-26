@@ -43,12 +43,12 @@ class OrderRefundedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Refunded')
+            ->subject('تم استرداد مبلغ طلبك')
             ->view('team', [
-                'title' => 'Order Cancelled',
-                'description' => "We regret to inform you that your order " . $this->code . " (" . $this->name . ") has been refunded. For more details or assistance, please visit the order page.",
+                'title' => 'تم إلغاء الطلب',
+                'description' => "يؤسفنا إبلاغك بأنه تم استرداد مبلغ طلبك " . $this->code . " (" . $this->name . "). لمزيد من التفاصيل أو المساعدة، يرجى زيارة صفحة الطلب.",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View Order',
+                'button_title' => 'عرض الطلب',
             ]);
     }
 

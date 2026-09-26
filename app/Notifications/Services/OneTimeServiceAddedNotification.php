@@ -27,12 +27,12 @@ class OneTimeServiceAddedNotification extends Notification implements ShouldQueu
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('One-Time Service Added Successfully')
+            ->subject('تمت إضافة الخدمة المقطوعة بنجاح')
             ->view('team', [
-                'title' => 'Service Published',
-                'description' => 'Congratulations! Your one-time service has been successfully added to Moawen. Your service is now live and visible to potential clients. Start receiving orders and grow your business with us.',
+                'title' => 'تم نشر الخدمة',
+                'description' => 'مبروك! تمت إضافة خدمتك المقطوعة بنجاح إلى معاون. أصبحت خدمتك الآن متاحة ومرئية للعملاء المحتملين. ابدأ في استقبال الطلبات ونمِّ عملك معنا.',
                 'url' => 'https://moawen.sa/profile',
-                'button_title' => 'View My Services',
+                'button_title' => 'عرض خدماتي',
             ]);
     }
 

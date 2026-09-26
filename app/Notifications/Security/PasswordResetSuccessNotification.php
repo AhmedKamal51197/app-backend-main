@@ -27,12 +27,12 @@ class PasswordResetSuccessNotification extends Notification implements ShouldQue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Password Reset Successful')
+            ->subject('تمت إعادة تعيين كلمة المرور بنجاح')
             ->view('team', [
-                'title' => 'Password Updated',
-                'description' => 'Your password has been successfully reset. Your account is now secure with your new password. If you did not make this change, please contact our support team immediately.',
+                'title' => 'تم تحديث كلمة المرور',
+                'description' => 'تمت إعادة تعيين كلمة مرورك بنجاح. أصبح حسابك الآن آمنًا بكلمة المرور الجديدة. إذا لم تقم بهذا التغيير، فيرجى التواصل مع فريق الدعم لدينا على الفور.',
                 'url' => 'https://moawen.sa/login',
-                'button_title' => 'Access Account',
+                'button_title' => 'الدخول إلى الحساب',
             ]);
     }
 

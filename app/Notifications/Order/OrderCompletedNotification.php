@@ -43,12 +43,12 @@ class OrderCompletedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Completed!')
+            ->subject('تم إنجاز طلبك!')
             ->view('team', [
-                'title' => 'Order Completed!',
-                'description' => "Congratulations! Your order " . $this->code . " for " . $this->name .  " has been successfully completed. You can now leave feedback and release the payment.",
+                'title' => 'تم إنجاز الطلب!',
+                'description' => "مبروك! تم إنجاز طلبك " . $this->code . " لـ " . $this->name .  " بنجاح. يمكنك الآن ترك تقييم وتحرير الدفعة.",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'Review & Complete',
+                'button_title' => 'المراجعة والإكمال',
             ]);
     }
 
@@ -77,8 +77,8 @@ class OrderCompletedNotification extends Notification
     public function toFcm(object $notifiable): array
     {
         return [
-            'title' => 'Order Completed!',
-            'body' => "Congratulations! Your order " . $this->code . " for " . $this->name . " has been successfully completed.",
+            'title' => 'تم إنجاز الطلب!',
+            'body' => "مبروك! تم إنجاز طلبك " . $this->code . " لـ " . $this->name . " بنجاح.",
             'data' => [
                 'code' => $this->code,
                 'name' => $this->name,

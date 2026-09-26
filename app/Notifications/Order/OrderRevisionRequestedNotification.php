@@ -43,12 +43,12 @@ class OrderRevisionRequestedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Revision Requested for Your Order')
+            ->subject('تم طلب تعديل على طلبك')
             ->view('team', [
-                'title' => 'Revision Requested!',
-                'description' => "A revision has been requested " . " for your order " . $this->code . " (" . $this->name . "). Please review the feedback and make the necessary adjustments.",
+                'title' => 'تم طلب تعديل!',
+                'description' => "تم طلب تعديل " . " على طلبك " . $this->code . " (" . $this->name . "). يرجى مراجعة الملاحظات وإجراء التعديلات اللازمة.",
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View Revision Details',
+                'button_title' => 'عرض تفاصيل التعديل',
             ]);
     }
 

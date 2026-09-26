@@ -43,12 +43,12 @@ class OrderApprovedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your Order Has Been Approved!')
+            ->subject('تمت الموافقة على طلبك!')
             ->view('team', [
-                'title' => 'Order Approved!',
-                'description' => "Great news! Your order " . $this->code . "for" . $this->name . "has been approved and is now active. You can track its progress and communicate with the freelancer from your order page.",
+                'title' => 'تمت الموافقة على الطلب!',
+                'description' => "خبر رائع! طلبك " . $this->code . " لـ" . $this->name . " تمت الموافقة عليه وأصبح نشطًا الآن. يمكنك متابعة تقدّمه والتواصل مع المستقل من صفحة طلبك.",
                 'url' => "https://moawen.sa/en/order-history",
-                'button_title' => 'View Order Details',
+                'button_title' => 'عرض تفاصيل الطلب',
             ]);
     }
 

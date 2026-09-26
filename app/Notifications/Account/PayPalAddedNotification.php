@@ -27,12 +27,12 @@ class PayPalAddedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('PayPal Account Added Successfully')
+            ->subject('تمت إضافة حساب PayPal بنجاح')
             ->view('team', [
-                'title' => 'PayPal Account Connected',
-                'description' => 'Excellent! Your PayPal account has been successfully connected to your Moawen profile. You can now receive payments through PayPal with ease and security.',
+                'title' => 'تم ربط حساب PayPal',
+                'description' => 'ممتاز! تم ربط حساب PayPal الخاص بك بنجاح بملفك الشخصي في معاون. يمكنك الآن استلام المدفوعات عبر PayPal بكل سهولة وأمان.',
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Payment Methods',
+                'button_title' => 'عرض طرق الدفع',
             ]);
     }
 

@@ -27,12 +27,12 @@ class KycRejectedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('KYC Verification Rejected')
+            ->subject('تم رفض التحقق من الهوية (KYC)')
             ->view('team', [
-                'title' => 'KYC Verification Rejected',
-                'description' => 'Unfortunately, your KYC verification was rejected. Please review your submitted documents and try again. If you need help, feel free to contact support.',
+                'title' => 'تم رفض التحقق من الهوية (KYC)',
+                'description' => 'للأسف، تم رفض التحقق من هويتك. يرجى مراجعة المستندات التي قدمتها والمحاولة مرة أخرى. إذا احتجت إلى مساعدة، لا تتردد في التواصل مع الدعم.',
                 'url' => 'https://api.whatsapp.com/send/?phone=%2B96566445995&text=I+need+help+with+my+KYC+verification&type=phone_number&app_absent=0',
-                'button_title' => 'Contact Support',
+                'button_title' => 'تواصل مع الدعم',
             ]);
     }
 

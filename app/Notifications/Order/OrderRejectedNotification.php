@@ -42,16 +42,16 @@ class OrderRejectedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $description = "We regret to inform you that your order " . $this->code . " for " . $this->name . " has been rejected.";
-        $description .= " Please review the details on the order page or contact support for assistance.";
+        $description = "يؤسفنا إبلاغك بأنه تم رفض طلبك " . $this->code . " لـ " . $this->name . ".";
+        $description .= " يرجى مراجعة التفاصيل في صفحة الطلب أو التواصل مع الدعم للمساعدة.";
 
         return (new MailMessage)
-            ->subject('Your Order Has Been Rejected')
+            ->subject('تم رفض طلبك')
             ->view('team', [
-                'title' => 'Order Rejected',
+                'title' => 'تم رفض الطلب',
                 'description' => $description,
                 'url' => "https://moawen.sa/en/order-history/",
-                'button_title' => 'View Order',
+                'button_title' => 'عرض الطلب',
             ]);
     }
 

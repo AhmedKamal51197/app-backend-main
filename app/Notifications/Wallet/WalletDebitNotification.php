@@ -29,12 +29,12 @@ class WalletDebitNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Wallet Transaction - Debit')
+            ->subject('معاملة محفظة - خصم')
             ->view('team', [
-                'title' => 'Wallet Debited',
-                'description' => "A debit transaction of $" . number_format($this->amount, 2) . " has been processed from your Moawen wallet. This amount has been deducted from your available balance. Check your wallet for updated balance.",
+                'title' => 'تم خصم مبلغ من المحفظة',
+                'description' => "تمت معالجة عملية خصم بمبلغ $" . number_format($this->amount, 2) . " من محفظتك في معاون. تم خصم هذا المبلغ من رصيدك المتاح. راجع محفظتك لمعرفة الرصيد المحدّث.",
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Wallet',
+                'button_title' => 'عرض المحفظة',
             ]);
     }
 

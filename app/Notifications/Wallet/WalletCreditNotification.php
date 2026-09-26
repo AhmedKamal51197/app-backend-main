@@ -29,12 +29,12 @@ class WalletCreditNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Wallet Transaction - Credit')
+            ->subject('معاملة محفظة - إيداع')
             ->view('team', [
-                'title' => 'Wallet Credited',
-                'description' => "Great news! Your Moawen wallet has been credited with $" . number_format($this->amount, 2) . ". This amount has been added to your available balance and is ready to use for your transactions.",
+                'title' => 'تم إيداع مبلغ في المحفظة',
+                'description' => "خبر رائع! تم إيداع مبلغ في محفظتك في معاون قدره $" . number_format($this->amount, 2) . ". تمت إضافة هذا المبلغ إلى رصيدك المتاح وأصبح جاهزًا للاستخدام في معاملاتك.",
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Wallet',
+                'button_title' => 'عرض المحفظة',
             ]);
     }
 

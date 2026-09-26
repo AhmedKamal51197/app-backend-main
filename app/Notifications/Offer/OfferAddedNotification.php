@@ -27,12 +27,12 @@ class OfferAddedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Offer Sent Successfully')
+            ->subject('تم إرسال العرض بنجاح')
             ->view('team', [
-                'title' => 'Offer Sent',
-                'description' => 'Great news! Your offer has been sent successfully to the client. Stay tuned for their response and be ready to deliver your best work.',
+                'title' => 'تم إرسال العرض',
+                'description' => 'خبر رائع! تم إرسال عرضك بنجاح إلى العميل. ترقّب ردّه وكن مستعدًا لتقديم أفضل ما لديك.',
                 'url' => 'https://moawen.sa',
-                'button_title' => 'Dashboard',
+                'button_title' => 'لوحة التحكم',
             ]);
     }
 

@@ -27,12 +27,12 @@ class BankAccountAddedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Bank Account Added Successfully')
+            ->subject('تمت إضافة الحساب البنكي بنجاح')
             ->view('team', [
-                'title' => 'Bank Account Added',
-                'description' => 'Great news! Your bank account has been successfully added to your Moawen profile. You can now receive payments directly to your bank account. All transactions are secure and protected.',
+                'title' => 'تمت إضافة الحساب البنكي',
+                'description' => 'خبر رائع! تمت إضافة حسابك البنكي بنجاح إلى ملفك الشخصي في معاون. يمكنك الآن استلام المدفوعات مباشرة إلى حسابك البنكي. جميع المعاملات آمنة ومحمية.',
                 'url' => 'https://moawen.sa/wallet',
-                'button_title' => 'View Payment Methods',
+                'button_title' => 'عرض طرق الدفع',
             ]);
     }
 

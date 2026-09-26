@@ -27,12 +27,12 @@ class PartTimeServiceAddedNotification extends Notification implements ShouldQue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Part-Time Service Added Successfully')
+            ->subject('تمت إضافة الخدمة بدوام جزئي بنجاح')
             ->view('team', [
-                'title' => 'Part-Time Service Live',
-                'description' => 'Great job! Your part-time service has been successfully published on Moawen. Clients can now discover and hire you for ongoing projects. Get ready to build long-term professional relationships.',
+                'title' => 'الخدمة بدوام جزئي متاحة الآن',
+                'description' => 'أحسنت! تم نشر خدمتك بدوام جزئي بنجاح على معاون. يمكن للعملاء الآن اكتشافك والتعاقد معك للمشاريع المستمرة. استعد لبناء علاقات مهنية طويلة الأمد.',
                 'url' => 'https://moawen.sa/profile',
-                'button_title' => 'View My Services',
+                'button_title' => 'عرض خدماتي',
             ]);
     }
 

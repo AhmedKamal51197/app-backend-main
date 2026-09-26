@@ -27,12 +27,12 @@ class NewPortfolioAddedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Portfolio Item Added Successfully')
+            ->subject('تمت إضافة عنصر لمعرض الأعمال بنجاح')
             ->view('team', [
-                'title' => 'Portfolio Updated',
-                'description' => 'Excellent! Your new portfolio item has been successfully added to your profile. Showcase your best work to attract more clients and demonstrate your expertise. Keep building your impressive portfolio.',
+                'title' => 'تم تحديث معرض الأعمال',
+                'description' => 'ممتاز! تمت إضافة عنصر جديد إلى معرض أعمالك في ملفك الشخصي بنجاح. اعرض أفضل أعمالك لجذب المزيد من العملاء وإبراز خبرتك. واصل بناء معرض أعمالك المميز.',
                 'url' => 'https://moawen.sa/profile',
-                'button_title' => 'View Portfolio',
+                'button_title' => 'عرض معرض الأعمال',
             ]);
     }
 
