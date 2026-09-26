@@ -480,5 +480,18 @@
     "Revisions must be a number" : "عدد المراجعات يجب ان يكون رقماً",
     "Revisions must be at least 1" : "عدد المراجعات يجب ان يكون مرة على الاٌقل",
     "Price must be at least 10" : "السعر يجب ان يكون ١٠ على الاقل",
-    "Time must be at least 10" : "الوقت لا يمكن ان يقل عن يوم"
+    "Time must be at least 10" : "الوقت لا يمكن ان يقل عن يوم",
+    "Cancellation approved" : "تمت الموافقة على الإلغاء",
+    "Cancellation rejected" : "تم رفض الإلغاء",
+    "New payment transaction" : "عملية دفع جديدة",
+    "Order disputed" : "نزاع على الطلب",
+    "Order rated" : "تم تقييم الطلب",
+    "The cancellation request has been approved" : "تمت الموافقة على طلب الإلغاء",
+    "The cancellation request has been rejected" : "تم رفض طلب الإلغاء",
+    "The order has been disputed" : "تم فتح نزاع على الطلب",
+    "The provider has rated the order" : "قام مقدم الخدمة بتقييم الطلب",
+    "The seeker has rated the order" : "قام طالب الخدمة بتقييم الطلب",
+    "You have renewed and order" : "قمت بتجديد الطلب",
+    "Your cancellation request has been approved" : "تمت الموافقة على طلب الإلغاء الخاص بك",
+    "Your cancellation request has been rejected" : "تم رفض طلب الإلغاء الخاص بك"
 }
