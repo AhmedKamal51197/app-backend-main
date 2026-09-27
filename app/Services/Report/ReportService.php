@@ -30,7 +30,7 @@ class ReportService
     {
         $query = Report::query()
             ->withCount('responses')
-            ->with(['user', 'latestResponse.sender']);
+            ->with(['user', 'creator', 'latestResponse.sender']);
 
         if (!empty($filters['status'])) {
             $query->whereRaw("LOWER(status) = ?", [strtolower($filters['status'])]);
@@ -103,6 +103,8 @@ class ReportService
                 'title' => $data['title'],
                 'body' => $data['body'],
                 'user_id' => $user->getAttribute('id'),
+                // The user opened their own report, so they wrote the first message.
+                'created_by' => $user->getAttribute('id'),
             ]);
 
             DB::commit();
@@ -135,11 +137,13 @@ class ReportService
                 'title' => $data['title'],
                 'body' => $data['body'],
                 'user_id' => $user->getAttribute('id'),
+                // The admin opened this report for the user, so the first message is from the admin.
+                'created_by' => auth()->id() ?? $user->getAttribute('id'),
             ]);
 
             $user->notify(new NewReportSubmittedNotification());
 
-            return $report->fresh(['user']);
+            return $report->fresh(['user', 'creator']);
     }
 
     /**
@@ -185,6 +189,7 @@ class ReportService
     {
         $report->load([
             'user',
+            'creator',
             'responses' => function ($query) use ($search) {
                 if (!empty($search)) {
                     $query->where('content', 'like', '%' . $search . '%');

@@ -27,6 +27,9 @@ class ReportResource extends JsonResource
             'body' => $this->body,
             'status' => $this->status->value,
             'user' => UserMiniResource::make($this->whenLoaded('user')),
+            // Who wrote the first message (the user, or an admin who opened the ticket).
+            'created_by' => UserMiniResource::make($this->whenLoaded('creator')),
+            'opened_by_admin' => $this->created_by !== null && $this->created_by !== $this->user_id,
             'responses_count' => $this->when(isset($this->responses_count), $this->responses_count),
             'latest_response' => ResponseResource::make($this->whenLoaded('latestResponse')),
             'responses' => ResponseResource::collection($this->whenLoaded('responses')),

@@ -48,6 +48,14 @@ class Report extends Model
     }
 
     /**
+     * Who opened the report / wrote its first message (the user or an admin).
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
      * Define the responses relation (chat messages)
      *
      * @return HasMany

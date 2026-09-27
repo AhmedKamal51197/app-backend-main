@@ -58,7 +58,7 @@ class ReportController extends BaseApiController
     {
         $this->authorize('own', $report);
 
-        $report->load(['user', 'responses.sender', 'responses.attachments']);
+        $report->load(['user', 'creator', 'responses.sender', 'responses.attachments']);
 
         return $this->jsonSuccess(ReportResource::make($report));
     }
