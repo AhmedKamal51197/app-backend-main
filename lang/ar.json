@@ -128,6 +128,7 @@
     "You cant revision this order wait provider to submit": "لا يمكنك مراجعة هذا الطلب، انتظر المزود لتقديمه",
     "This order revision requested successfully": "تم طلب مراجعة هذا الطلب بنجاح",
     "No sufficient wallet balance": "رصيد المحفظة غير كافٍ",
+    "Withdrawal amount is too low to cover the transfer fee": "مبلغ السحب أقل من أن يغطي رسوم التحويل",
     "Payment Request created successfully": "تم إنشاء طلب الدفع بنجاح",
     "User doesnt have a paypal": "المستخدم ليس لديه حساب PayPal",
     "PayPal updated successfully": "تم تحديث PayPal بنجاح",

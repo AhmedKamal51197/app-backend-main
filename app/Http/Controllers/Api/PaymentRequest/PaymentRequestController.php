@@ -8,6 +8,7 @@ use App\Http\Resources\Api\PaymentRequest\PaymentRequestResource;
 use App\Models\PaymentRequest;
 use App\Models\Setting;
 use App\Services\PaymentRequest\PaymentRequestService;
+use App\Services\Setting\SettingService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -73,11 +74,34 @@ class PaymentRequestController extends BaseApiController
             return  $this->jsonError(__('No sufficient wallet balance'));
         }
 
+        if (($data['amount'] - SettingService::calculateWithdrawalFee((float) $data['amount'])) <= 0) {
+            return $this->jsonError(__('Withdrawal amount is too low to cover the transfer fee'));
+        }
+
         $paymentRequest = $this->service->store($user, $request->validated());
 
         return $this->jsonSuccess(
             PaymentRequestResource::make($paymentRequest),
             __('Payment Request created successfully')
         );
+    }
+
+    /**
+     * Withdrawal configuration (fee + minimum) so the app can preview the
+     * net amount the freelancer will receive before submitting the request.
+     *
+     * @return JsonResponse
+     */
+    public function withdrawalConfig(): JsonResponse
+    {
+        $fee = SettingService::withdrawalFeeConfig();
+
+        $minimum = Setting::where('setting_name', 'minimum_payment_request_amount')->value('setting_value');
+
+        return $this->jsonSuccess([
+            'fee_fixed' => round((float) $fee['fixed'], 2),
+            'fee_percentage' => round((float) $fee['percentage'], 2),
+            'minimum_amount' => round((float) ($minimum ?? 0), 2),
+        ]);
     }
 }

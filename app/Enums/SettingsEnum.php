@@ -10,4 +10,6 @@ enum SettingsEnum: string
     case DAILY_PAYMENT_REQUESTS_AMOUNT = 'daily_payment_requests_amount';
     case MONTHLY_PAYMENT_REQUESTS_AMOUNT = 'monthly_payment_requests_amount';
     case MINIMUM_PAYMENT_REQUEST_AMOUNT = 'minimum_payment_request_amount';
+    case WITHDRAWAL_FEE_FIXED = 'withdrawal_fee_fixed';
+    case WITHDRAWAL_FEE_PERCENTAGE = 'withdrawal_fee_percentage';
 }

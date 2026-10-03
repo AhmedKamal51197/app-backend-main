@@ -22,6 +22,8 @@ class PaymentRequestResource extends JsonResource
         return [
             'id' => $this->uuid,
             'amount' => $this->amount,
+            'fee' => round($this->fee ?? 0, 2),
+            'net_amount' => round($this->net_amount ?? $this->amount, 2),
             'status' => $this->status,
             'notes' => $this->notes,
             'user' => UserMiniResource::make($this->whenLoaded('user')),

@@ -30,6 +30,9 @@ class UpdateWithdrawalSettingsRequest extends FormRequest
             'daily_payment_requests_amount' => ['required', 'numeric', 'min:0'],
             'monthly_payment_requests_amount' => ['required', 'numeric', 'min:0'],
             'minimum_payment_request_amount' => ['required', 'numeric', 'min:0'],
+            // Transfer fee charged to the freelancer on each withdrawal.
+            'withdrawal_fee_fixed' => ['sometimes', 'numeric', 'min:0'],
+            'withdrawal_fee_percentage' => ['sometimes', 'numeric', 'min:0', 'max:100'],
         ];
     }
 }
