@@ -8,9 +8,10 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 /**
- * A class defined for part-time service added successfully message
+ * Sent to the service owner once an admin approves the service, so the
+ * "published / now live" message is only delivered after the review passes.
  */
-class PartTimeServiceAddedNotification extends Notification implements ShouldQueue
+class ServiceApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,10 +28,10 @@ class PartTimeServiceAddedNotification extends Notification implements ShouldQue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('تم استلام الخدمة بدوام جزئي وهي قيد المراجعة')
+            ->subject('خدمتك الآن متاحة للعملاء')
             ->view('team', [
-                'title' => 'الخدمة قيد المراجعة',
-                'description' => 'شكرًا لك! تم استلام خدمتك بدوام جزئي في معاون وهي الآن قيد المراجعة من قبل فريقنا. سنُعلمك فور اعتمادها ونشرها.',
+                'title' => 'تم نشر الخدمة',
+                'description' => 'أخبار رائعة! تم اعتماد خدمتك وأصبحت الآن متاحة ومرئية للعملاء المحتملين على معاون. ابدأ في استقبال الطلبات ونمِّ عملك معنا.',
                 'url' => 'https://moawen.sa/profile',
                 'button_title' => 'عرض خدماتي',
             ]);

@@ -9,6 +9,7 @@ use App\Enums\OrderDirectionEnum;
 use App\Enums\TimePeriodEnum;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Notifications\Services\ServiceApprovedNotification;
 use App\Services\Service\AdminServiceService;
 use Illuminate\Http\JsonResponse;
 
@@ -96,7 +97,14 @@ class ServiceController extends BaseAdminController
      */
     public function approve(Service $service): JsonResponse
     {
+        $wasApproved = (bool) $service->is_approved;
+
         $service->update(['is_approved' => !$service->is_approved]);
+
+        // Only notify the owner the service is live when it becomes approved.
+        if (! $wasApproved && $service->is_approved) {
+            $service->user?->notify(new ServiceApprovedNotification());
+        }
 
         return $this->jsonSuccess(ServiceResource::make($service));
     }
