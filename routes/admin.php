@@ -70,6 +70,11 @@ Route::prefix('v1')->middleware('administrator')->group(function () {
     require('Api/Admin/payment_requests_routes.php');
 
     /**
+     * Bank Accounts Routes
+     */
+    require('Api/Admin/bank_accounts_routes.php');
+
+    /**
      * Wallets Routes
      */
     require('Api/Admin/wallet_routes.php');
