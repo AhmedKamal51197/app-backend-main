@@ -30,6 +30,7 @@ class CreateUserAction
                 'status' => UserStatusEnum::ACTIVE->value,
                 'active' => true,
                 'country_id' => Arr::get($input, 'country_id'),
+                'mobile' => Arr::get($input, 'mobile'),
                 'fcm_token' => Arr::get($input, 'fcm_token')
             ]);
             $user->assignRole(Arr::get($input, 'role'));

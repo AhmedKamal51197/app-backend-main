@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Auth;
 
+use App\Models\Country;
 use App\Traits\RequestFailedValidationJsonResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,23 @@ class RegisterRequest extends FormRequest
     }
 
     /**
+     * Accept the country either by its public uuid (what the API exposes) or by
+     * its numeric id, resolving it to the internal id before validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $country = $this->input('country_id');
+
+        if (! is_null($country) && ! is_numeric($country)) {
+            $this->merge([
+                'country_id' => Country::where('uuid', $country)->value('id'),
+            ]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -30,10 +48,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+            'email' => ['required', 'email:rfc', 'unique:users,email'],
             'name' => ['required', 'min:3'],
-            'password' => ['required', 'confirmed'],
+            'password' => ['required', 'confirmed', 'min:8'],
             'password_confirmation' => ['required'],
+            'mobile' => ['nullable', 'string', 'max:20', 'unique:users,mobile'],
             'country_id' => ['required', 'exists:countries,id'],
             'role' => [
                 'required',
@@ -68,10 +87,12 @@ class RegisterRequest extends FormRequest
             'email.required' => __('Email is required'),
             'email.email' => __('Email must be a valid email address'),
             'email.unique' => __('Email must be unique'),
+            'mobile.unique' => __('The mobile number is already registered'),
             'name.required' => __('Name is required'),
             'name.min' => __('Name must be at least 3 characters'),
             'password.required' => __('Password is required'),
             'password.confirmed' => __('Password confirmation does not match'),
+            'password.min' => __('Password must be at least 8 characters'),
             'password_confirmation.required' => __('Password confirmation is required'),
             'country_id.required' => __('Country is required'),
             'country_id.exists' => __('Country is invalid'),
