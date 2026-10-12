@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\BankAccount;
 
+use App\Models\Country;
 use App\Traits\RequestFailedValidationJsonResponse;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,6 +22,23 @@ class StoreBankAccountRequest extends FormRequest
     }
 
     /**
+     * Accept the country either by its public uuid (what the API exposes) or by
+     * its numeric id, resolving it to the internal id before validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $country = $this->input('country_id');
+
+        if (! is_null($country) && ! is_numeric($country)) {
+            $this->merge([
+                'country_id' => Country::where('uuid', $country)->value('id'),
+            ]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -35,7 +53,7 @@ class StoreBankAccountRequest extends FormRequest
             'bank_address' => ['required', 'string', 'max:255', 'min:5'],
             'branch_name' => ['required', 'string', 'max:255', 'min:3'],
             'user_address' => ['required', 'string', 'max:255', 'min:5'],
-            'country_id' => ['required', 'integer', 'exists:countries,id'],
+            'country_id' => ['required', 'exists:countries,id'],
         ];
     }
 
