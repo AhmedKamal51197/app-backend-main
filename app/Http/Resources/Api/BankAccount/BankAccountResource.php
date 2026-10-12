@@ -25,6 +25,7 @@ class BankAccountResource extends JsonResource
             'user_name' => $this->user_name,
             'iban' => $this->iban,
             'swift_code' => $this->swift_code,
+            'bank_name' => $this->bank_name,
             'branch_name' => $this->branch_name,
             'bank_address' => $this->bank_address,
             'user_address' => $this->user_address,
