@@ -38,8 +38,6 @@ class ProviderController extends BaseApiController
             'userSubCategories', 'userSubCategories.subCategory',
             'userSkills', 'userSkills.skill',
             'avatar',
-            'bankAccount',
-            'paypal',
             'rates',
             'rates.user',
             'rates.order',
@@ -47,7 +45,15 @@ class ProviderController extends BaseApiController
             'rates.order.orderable.service',
             'educations', 'educations.educationDegree', 'educations.image',
             'portfolios', 'portfolios.attachments', 'portfolios.duration', 'portfolios.industry',
-            'services', 'services.attachments', 'services.packages',
+            // Only approved, enabled, visible services (not private custom offers)
+            // belong on a provider's public profile — keep under-review ones off.
+            'services' => function ($query) {
+                $query->where('is_approved', true)
+                    ->where('is_enabled', true)
+                    ->where('hidden', false)
+                    ->where('custom_offer', false);
+            },
+            'services.attachments', 'services.packages',
             'experiences', 'experiences.image',
             'userCertificates.file', 'userCertificates.certificate', 'userCertificates.certificate.provider', 'userCertificates',
         ]);
