@@ -31,10 +31,11 @@ class AdminProjectService
      * @param string $status
      * @param string $orderBy
      * @param string $projectsCategoriesRate
+     * @param string|null $isApproved
      *
      * @return array
      */
-    public function index(string $search, int $limit, int $page, string $status, string $orderBy, string $projectsCategoriesRate): array
+    public function index(string $search, int $limit, int $page, string $status, string $orderBy, string $projectsCategoriesRate, ?string $isApproved = null): array
     {
         $query = Project::with([
             'user.userSkills.skill',
@@ -51,6 +52,12 @@ class AdminProjectService
 
         if (!empty($status)) {
             $query->where('status', $status);
+        }
+
+        // Filter by approval state so the dashboard can list projects awaiting
+        // review (is_approved=0) separately from approved ones (is_approved=1).
+        if ($isApproved !== null && $isApproved !== '') {
+            $query->where('is_approved', filter_var($isApproved, FILTER_VALIDATE_BOOLEAN));
         }
 
         $query->orderBy('created_at', $orderBy === 'oldest' ? 'asc' : 'desc');

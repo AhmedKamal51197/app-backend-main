@@ -40,6 +40,7 @@ class ProjectController extends BaseAdminController
             $request->input('status', ''),
             $request->input('order_by', 'latest'),
             $request->input('projects_categories_rate', 'monthly'),
+            $request->input('is_approved'),
         );
 
         $response = $this->jsonSuccess(ProjectResource::collection($result['projects'] ?? []));
