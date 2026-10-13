@@ -49,6 +49,8 @@ class OrderController extends BaseApiController
      */
     public function show(Order $order): JsonResponse
     {
+        $this->authorize('own', $order);
+
         if ($order->orderable instanceof Project){
             $order->load(['orderable', 'orderable.attachments', 'seeker', 'provider', 'messages', 'attachments', 'category', 'subCategory', 'rates', 'rates.user', 'rates.ratedUser']);
         }else{
@@ -66,6 +68,8 @@ class OrderController extends BaseApiController
      */
     public function showPartTime(Order $order): JsonResponse
     {
+        $this->authorize('own', $order);
+
         $order->load(['orderable', 'orderable.service', 'orderable.service.attachments', 'seeker', 'provider', 'messages', 'attachments', 'renewals', 'renewals.histories']);
 
         return $this->jsonSuccess(OrderResource::make($order));
@@ -80,6 +84,8 @@ class OrderController extends BaseApiController
      */
     public function history(Order $order): JsonResponse
     {
+        $this->authorize('own', $order);
+
         return $this->jsonSuccess(OrderHistoryResource::collection($order->histories));
     }
 }

@@ -91,6 +91,8 @@ class JobController extends BaseApiController
      */
     public function edit(Job $job, EditJobRequest $request): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $job = $this->service->edit($job, $request->validated());
 
         return $this->jsonSuccess(
@@ -110,6 +112,8 @@ class JobController extends BaseApiController
      */
     public function delete(Job $job): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $this->service->delete($job);
 
         return $this->jsonSuccess(__('Job deleted successfully'));
@@ -127,6 +131,8 @@ class JobController extends BaseApiController
      */
     public function addAttachment(Job $job, AddAttachmentRequest $request): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $job = $this->service->addAttachment(request()->user(), $job, $request->validated());
 
         return $this->jsonSuccess(
@@ -147,6 +153,8 @@ class JobController extends BaseApiController
      */
     public function deleteAttachment(Job $job, Attachment $attachment): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $job = $this->service->deleteAttachment($job, $attachment);
 
         return $this->jsonSuccess(
@@ -167,6 +175,8 @@ class JobController extends BaseApiController
      */
     public function addSkills(Job $job, ManageSkillsRequest $request): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $job = $this->service->storeJobSkills($job, $request->validated()['skill_ids']);
 
         return $this->jsonSuccess(
@@ -187,6 +197,8 @@ class JobController extends BaseApiController
      */
     public function removeSkills(Job $job, ManageSkillsRequest $request): JsonResponse
     {
+        $this->authorize('own', $job);
+
         $job = $this->service->removeJobSkills($job, $request->validated()['skill_ids']);
 
         return $this->jsonSuccess(

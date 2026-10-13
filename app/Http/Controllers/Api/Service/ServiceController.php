@@ -142,6 +142,8 @@ class ServiceController extends BaseApiController
      */
     public function editPackage(Service $service, ServicePackage $package, EditServicePackageRequest $request): JsonResponse
     {
+        $this->authorize('own', $service);
+
         // Verify the package belongs to this service
         if ($package->service_id !== $service->id) {
             return $this->jsonError(__('Package does not belong to this service'), 403);
@@ -167,6 +169,8 @@ class ServiceController extends BaseApiController
      */
     public function edit(Service $service, EditServiceRequest $request): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $service = $this->service->edit($service, $request->validated());
 
         return $this->jsonSuccess(
@@ -186,6 +190,8 @@ class ServiceController extends BaseApiController
      */
     public function delete(Service $service): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $this->service->delete($service);
 
         return $this->jsonSuccess(__('Service deleted successfully'));
@@ -203,6 +209,8 @@ class ServiceController extends BaseApiController
      */
     public function addAttachment(Service $service, AddAttachmentRequest $request): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $service = $this->service->addAttachment(request()->user(), $service, $request->validated());
 
         return $this->jsonSuccess(
@@ -223,6 +231,8 @@ class ServiceController extends BaseApiController
      */
     public function deleteAttachment(Service $service, Attachment $attachment): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $service = $this->service->deleteAttachment($service, $attachment);
 
         return $this->jsonSuccess(
@@ -243,6 +253,8 @@ class ServiceController extends BaseApiController
      */
     public function addSkills(Service $service, ManageSkillsRequest $request): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $service = $this->service->storeServiceSkills($service, $request->validated()['skill_ids']);
 
         return $this->jsonSuccess(
@@ -263,6 +275,8 @@ class ServiceController extends BaseApiController
      */
     public function removeSkills(Service $service, ManageSkillsRequest $request): JsonResponse
     {
+        $this->authorize('own', $service);
+
         $service = $this->service->removeServiceSkills($service, $request->validated()['skill_ids']);
 
         return $this->jsonSuccess(
