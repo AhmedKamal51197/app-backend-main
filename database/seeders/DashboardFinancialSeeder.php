@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Enums\PaymentRequestStatusEnum;
-use App\Enums\RefundRequestStatusEnum;
 use App\Models\BankAccount;
 use App\Models\Country;
 use App\Models\Order;
 use App\Models\PaymentRequest;
-use App\Models\RefundRequest;
+use App\Models\Project;
+use App\Models\Refund;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +27,11 @@ class DashboardFinancialSeeder extends Seeder
      * Marker that identifies the rows created by this seeder.
      */
     private const SENTINEL = 'sample-seed';
+
+    /**
+     * Title prefix that identifies the sample refunds.
+     */
+    private const REFUND_TITLE = 'عينة استرداد';
 
     public function run(): void
     {
@@ -85,29 +90,32 @@ class DashboardFinancialSeeder extends Seeder
     }
 
     /**
-     * Create sample refund requests against existing orders.
+     * Create sample refunds (the model the admin refunds table lists), each
+     * attached to an existing order (or a project as a fallback), so the
+     * refunds table is populated.
      */
     private function seedRefunds(): void
     {
-        if (RefundRequest::where('reason', self::SENTINEL)->exists()) {
+        if (Refund::where('title', 'like', self::REFUND_TITLE . '%')->exists()) {
             return;
         }
 
-        $orders = Order::query()->orderByDesc('id')->take(6)->get();
+        $refundables = Order::query()->orderByDesc('id')->take(6)->get();
 
-        if ($orders->isEmpty()) {
+        if ($refundables->isEmpty()) {
+            $refundables = Project::query()->orderByDesc('id')->take(6)->get();
+        }
+
+        if ($refundables->isEmpty()) {
             return;
         }
 
-        $statuses = RefundRequestStatusEnum::cases();
-
-        foreach ($orders->values() as $i => $order) {
-            RefundRequest::create([
-                'refundable_type' => $order->getMorphClass(),
-                'refundable_id' => $order->id,
+        foreach ($refundables->values() as $i => $refundable) {
+            Refund::create([
+                'title' => self::REFUND_TITLE . ' ' . ($i + 1),
                 'amount' => (($i % 4) + 1) * 75,
-                'reason' => self::SENTINEL,
-                'status' => $statuses[$i % count($statuses)]->value,
+                'refundable_type' => $refundable->getMorphClass(),
+                'refundable_id' => $refundable->id,
                 'created_at' => now()->subDays($i),
                 'updated_at' => now()->subDays($i),
             ]);
