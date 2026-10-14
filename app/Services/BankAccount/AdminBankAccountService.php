@@ -45,17 +45,21 @@ class AdminBankAccountService
 
     /**
      * Withdrawal (payment) requests with the requester's bank details, so the
-     * admin can export a payout sheet. Filtered by status when provided.
+     * admin can export a payout sheet. Filtered by status when provided, and
+     * narrowed to specific requests (by uuid) when a selection is passed, so
+     * the dashboard can export only the rows the admin ticked, or a single one.
      *
      * @param string|null $status
+     * @param array<int, string>|null $ids
      *
      * @return Collection
      */
-    public function withdrawalRequests(?string $status = null): Collection
+    public function withdrawalRequests(?string $status = null, ?array $ids = null): Collection
     {
         return PaymentRequest::query()
             ->with(['user.bankAccount.country'])
             ->when($status, fn ($query) => $query->where('status', $status))
+            ->when($ids, fn ($query) => $query->whereIn('uuid', $ids))
             ->orderByDesc('created_at')
             ->get();
     }

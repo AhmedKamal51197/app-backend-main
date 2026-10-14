@@ -76,9 +76,20 @@ class BankAccountController extends BaseAdminController
      */
     public function exportWithdrawals(Request $request): StreamedResponse
     {
-        $status = $request->input('status', PaymentRequestStatusEnum::PENDING->value);
+        // Optional selection of specific requests (comma-separated uuids) so the
+        // admin can export only the rows they ticked, or a single request.
+        $idsInput = $request->input('ids');
+        $ids = $idsInput
+            ? array_values(array_filter(array_map('trim', explode(',', (string) $idsInput))))
+            : null;
 
-        $requests = $this->service->withdrawalRequests($status);
+        // Selecting specific requests exports exactly those (status optional);
+        // otherwise export the whole queue filtered by status (defaults to pending).
+        $status = $ids
+            ? $request->input('status')
+            : $request->input('status', PaymentRequestStatusEnum::PENDING->value);
+
+        $requests = $this->service->withdrawalRequests($status ?: null, $ids);
 
         $headers = [
             'الاسم', 'البريد الإلكتروني', 'الجوال', 'المبلغ المطلوب', 'الرسوم', 'الصافي المحوّل',
