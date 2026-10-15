@@ -3,6 +3,7 @@
 namespace App\Services\Wallet;
 
 use App\Models\PaymentRequest;
+use App\Models\RefundRequest;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Wallet;
@@ -27,6 +28,7 @@ class AdminWalletService
             'user_wallets' => $this->getUserWallets($data['user_wallets_limit'], $data['user_wallets_page'], $data['user_role'] ?? 'seeker'),
             'deposits' => $this->getDeposits($data['deposits_limit'], $data['deposits_page']),
             'withdrawals' => $this->getWithdrawals($data['withdrawals_limit'], $data['withdrawals_page'], $data['withdrawal_status']),
+            'refunds' => $this->getRefunds($data['refunds_limit'] ?? Setting::PAGE_RESULT_LIMIT, $data['refunds_page'] ?? Setting::PAGE, $data['refund_status'] ?? null),
         ];
     }
 
@@ -162,6 +164,39 @@ class AdminWalletService
         });
 
         return $withdrawals;
+    }
+
+    /**
+     * Get refund requests (the refund recipient is the order's seeker), shaped
+     * like withdrawals for the dashboard financial-flow refunds table.
+     *
+     * @param int $perPage
+     * @param int $page
+     * @param string|null $status
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getRefunds(int $perPage = Setting::PAGE_RESULT_LIMIT, int $page = 1, ?string $status = null)
+    {
+        $query = RefundRequest::with(['refundable'])
+            ->orderByDesc('created_at');
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        $refunds = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $refunds->getCollection()->transform(function ($refund) {
+            $recipient = $refund->refundable?->seeker;
+
+            $refund->user = $recipient;
+            $refund->current_balance = $recipient ? $recipient->walletBalance() : 0;
+
+            return $refund;
+        });
+
+        return $refunds;
     }
 }
 
