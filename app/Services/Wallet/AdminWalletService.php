@@ -189,9 +189,14 @@ class AdminWalletService
 
         $refunds->getCollection()->transform(function ($refund) {
             $recipient = $refund->refundable?->seeker;
+            $balance = $recipient ? $recipient->walletBalance() : 0;
 
             $refund->user = $recipient;
-            $refund->current_balance = $recipient ? $recipient->walletBalance() : 0;
+            $refund->current_balance = round($balance, 2);
+            // A refund credits the recipient's wallet, so the balance after the
+            // refund is the balance before it plus the refund amount.
+            $refund->balance_before = round($balance, 2);
+            $refund->balance_after = round($balance + ($refund->amount ?? 0), 2);
 
             return $refund;
         });
