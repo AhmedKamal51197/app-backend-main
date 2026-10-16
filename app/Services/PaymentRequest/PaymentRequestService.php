@@ -123,12 +123,13 @@ class PaymentRequestService
      *
      * @throws Exception
      */
-    public function reject(PaymentRequest $paymentRequest): PaymentRequest
+    public function reject(PaymentRequest $paymentRequest, ?string $notes = null): PaymentRequest
     {
         DB::beginTransaction();
         try {
             $paymentRequest->update([
                 'status' => PaymentRequestStatusEnum::REJECTED->value,
+                'notes' => $notes !== null && $notes !== '' ? $notes : $paymentRequest->notes,
             ]);
 
             WalletService::createWallet($paymentRequest->user, 0, $paymentRequest->getAttribute('amount'), __('Payment Request Rejected'), $paymentRequest);

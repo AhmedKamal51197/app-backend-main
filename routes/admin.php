@@ -90,6 +90,11 @@ Route::prefix('v1')->middleware('administrator')->group(function () {
     require('Api/Admin/refunds_routes.php');
 
     /**
+     * Refund Requests Routes (approve/reject)
+     */
+    require('Api/Admin/refund_requests_routes.php');
+
+    /**
      * Analysis Routes
      */
     require('Api/Admin/analysis_routes.php');
