@@ -13,13 +13,14 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Sample data for the admin financial-flow dashboard: withdrawal (payment)
- * requests with the requester's bank details, and refund requests, so the
- * withdrawals and refunds tables are populated during development.
+ * Sample data for the admin financial-flow dashboard: pending withdrawal
+ * (payment) requests with bank details, and pending refund requests, so the
+ * admin can test approve/reject on them.
  *
- * Safe to run more than once: it skips when the sample rows already exist.
+ * Re-runnable: it tops the pending sample rows up to PENDING_TARGET, so after
+ * approving/rejecting some you can run it again to get fresh pending ones.
  *
- *   php artisan db:seed --class=Database\\Seeders\\DashboardFinancialSeeder
+ *   php artisan db:seed --class="Database\Seeders\DashboardFinancialSeeder"
  */
 class DashboardFinancialSeeder extends Seeder
 {
@@ -28,30 +29,39 @@ class DashboardFinancialSeeder extends Seeder
      */
     private const SENTINEL = 'sample-seed';
 
+    /**
+     * How many pending sample rows to keep available for testing.
+     */
+    private const PENDING_TARGET = 5;
+
     public function run(): void
     {
-        $this->seedWithdrawals();
-        $this->seedRefunds();
+        $this->topUpPendingWithdrawals();
+        $this->topUpPendingRefunds();
     }
 
     /**
-     * Create sample withdrawal (payment) requests, making sure each requester
-     * has bank details so the payout export is meaningful.
+     * Ensure there are pending sample withdrawals (with bank details) to test.
      */
-    private function seedWithdrawals(): void
+    private function topUpPendingWithdrawals(): void
     {
-        if (PaymentRequest::where('notes', self::SENTINEL)->exists()) {
+        $existing = PaymentRequest::where('notes', self::SENTINEL)
+            ->where('status', PaymentRequestStatusEnum::PENDING->value)
+            ->count();
+
+        $need = self::PENDING_TARGET - $existing;
+
+        if ($need <= 0) {
             return;
         }
 
-        $users = User::query()->orderByDesc('id')->take(8)->get();
+        $users = User::query()->orderByDesc('id')->take($need)->get();
 
         if ($users->isEmpty()) {
             return;
         }
 
         $countryId = Country::query()->value('id');
-        $statuses = PaymentRequestStatusEnum::cases();
 
         foreach ($users->values() as $i => $user) {
             BankAccount::firstOrCreate(
@@ -77,35 +87,35 @@ class DashboardFinancialSeeder extends Seeder
                 'net_amount' => max($amount - $fee, 0),
                 'notes' => self::SENTINEL,
                 'user_id' => $user->id,
-                'status' => $statuses[$i % count($statuses)]->value,
-                'created_at' => now()->subDays($i),
-                'updated_at' => now()->subDays($i),
+                'status' => PaymentRequestStatusEnum::PENDING->value,
             ]);
         }
     }
 
     /**
-     * Create sample refund requests on existing orders (the refund recipient is
-     * the order's seeker), so the dashboard financial-flow refunds table has
-     * data with statuses.
+     * Ensure there are pending sample refund requests (on existing orders) to test.
      */
-    private function seedRefunds(): void
+    private function topUpPendingRefunds(): void
     {
-        if (RefundRequest::where('reason', self::SENTINEL)->exists()) {
+        $existing = RefundRequest::where('reason', self::SENTINEL)
+            ->where('status', RefundRequestStatusEnum::PENDING->value)
+            ->count();
+
+        $need = self::PENDING_TARGET - $existing;
+
+        if ($need <= 0) {
             return;
         }
 
         $orders = Order::query()
             ->whereNotNull('seeker_id')
             ->orderByDesc('id')
-            ->take(6)
+            ->take($need)
             ->get();
 
         if ($orders->isEmpty()) {
             return;
         }
-
-        $statuses = RefundRequestStatusEnum::cases();
 
         foreach ($orders->values() as $i => $order) {
             RefundRequest::create([
@@ -113,9 +123,7 @@ class DashboardFinancialSeeder extends Seeder
                 'refundable_type' => $order->getMorphClass(),
                 'refundable_id' => $order->id,
                 'reason' => self::SENTINEL,
-                'status' => $statuses[$i % count($statuses)]->value,
-                'created_at' => now()->subDays($i),
-                'updated_at' => now()->subDays($i),
+                'status' => RefundRequestStatusEnum::PENDING->value,
             ]);
         }
     }
