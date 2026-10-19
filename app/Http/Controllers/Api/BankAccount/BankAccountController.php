@@ -93,4 +93,26 @@ class BankAccountController extends BaseApiController
             __('Bank account updated successfully')
         );
     }
+
+    /**
+     * Delete the user's bank account.
+     *
+     * @return JsonResponse
+     *
+     * @throws Exception
+     */
+    public function destroy(): JsonResponse
+    {
+        $user = request()->user();
+
+        if (!($user->hasBankAccount())) {
+            return $this->jsonError(
+                __('User doesnt have a bank account')
+            );
+        }
+
+        $this->service->delete($user);
+
+        return $this->jsonSuccess([], __('Bank account deleted successfully'));
+    }
 }
