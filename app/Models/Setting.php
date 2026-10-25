@@ -22,7 +22,6 @@ class Setting extends Model
     public const PAGE_RESULT_LIMIT = 15;
     public const PAGE = 1;
     public const ATTACHMENT_STORAGE = AttachmentStorageEnum::S3;
-    public const SUPERVISOR_DEFAULT_PASSWORD = 'password123';
 
     protected $guarded = ['id', 'uuid'];
 

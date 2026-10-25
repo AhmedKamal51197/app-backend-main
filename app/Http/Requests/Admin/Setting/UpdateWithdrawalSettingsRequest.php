@@ -16,7 +16,9 @@ class UpdateWithdrawalSettingsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        // These are financial withdrawal settings; require the settings permission
+        // (defense in depth alongside the route's permission middleware).
+        return (bool) $this->user()?->can('Edit Settings');
     }
 
     /**
