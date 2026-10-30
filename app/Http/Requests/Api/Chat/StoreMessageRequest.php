@@ -37,7 +37,7 @@ class StoreMessageRequest extends FormRequest
             'type' => ['sometimes', Rule::in(MessageTypeEnum::toArray())],
             'reply_to_id' => ['nullable', 'exists:messages,id'],
             'attachments' => ['nullable', 'array', 'max:2'],
-            'attachments.*.file' => ['required', 'file', 'max:10240'],
+            'attachments.*.file' => ['required', 'file', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,mp4,mov', 'max:10240'],
             'attachments.*.file_type' => [
                 'required',
                 Rule::in([

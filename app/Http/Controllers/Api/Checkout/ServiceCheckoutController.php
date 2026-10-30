@@ -42,6 +42,10 @@ class ServiceCheckoutController extends BaseApiController
 
             $package = ServicePackage::where('uuid', $data['package_id'])->firstOrFail();
 
+            if ($error = $this->purchaseError($package)) {
+                return $this->jsonError($error);
+            }
+
             $checkout = $this->service->checkout($package, request()->user(), $request->validated());
 
             return $this->jsonSuccess(($checkout), __('Checkout Added successfully'));
@@ -65,7 +69,33 @@ class ServiceCheckoutController extends BaseApiController
     {
         $package = ServicePackage::where('uuid', $request->validated()['package_id'])->firstOrFail();
 
+        if ($error = $this->purchaseError($package)) {
+            return $this->jsonError($error);
+        }
+
         return $this->jsonSuccess((new CheckoutPricingService())->breakdown((float) $package->getAttribute('price')));
+    }
+
+    /**
+     * Reason the current user can't buy this package, or null when allowed.
+     *
+     * @param ServicePackage $package
+     *
+     * @return string|null
+     */
+    private function purchaseError(ServicePackage $package): ?string
+    {
+        $service = $package->service;
+
+        if (!$service || !$service->is_approved) {
+            return __('This service is not available');
+        }
+
+        if ((int) $service->user_id === (int) request()->user()->id) {
+            return __('You cannot purchase your own service');
+        }
+
+        return null;
     }
 }
 

@@ -144,7 +144,7 @@ class ServiceService
             $service = Service::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
-                'client_guidelines' => $data['client_guidelines'],
+                'client_guidelines' => $data['client_guidelines'] ?? null,
                 'category_id' => $category->getAttribute('id'),
                 'sub_category_id' => $subCategory->getAttribute('id'),
                 'type' => $data['type'],

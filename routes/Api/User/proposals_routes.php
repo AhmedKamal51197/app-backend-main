@@ -9,5 +9,6 @@ Route::prefix('proposals')->middleware('auth:api')->group(function () {
     Route::post('/add', [ProposalController::class, 'store']);
     Route::prefix('{proposal}')->group(function () {
         Route::get('/', [ProposalController::class, 'show']);
+        Route::post('/edit', [ProposalController::class, 'edit']);
     });
 });

@@ -385,8 +385,8 @@ class OrderService
     {
         return Order::query()
             ->whereIn('status', $statuses)
-            ->whereHas('orderable.service', function ($query) use ($type) {
-                $query->where('type', $type);
+            ->whereHasMorph('orderable', [ServicePackage::class], function ($query) use ($type) {
+                $query->whereHas('service', fn ($service) => $service->where('type', $type));
             })->where(function ($query) use ($user) {
                 $query->where('provider_id', $user->getAttribute('id'))
                     ->orWhere('seeker_id', $user->getAttribute('id'));

@@ -8,6 +8,7 @@ use App\Events\LogExceptionEvent;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\Checkout\OrderCheckoutRequest;
 use App\Models\Order;
+use App\Models\ServicePackage;
 use App\Services\Checkout\CheckoutPricingService;
 use App\Services\Order\RenewOrderService;
 use Exception;
@@ -42,6 +43,9 @@ class OrderCheckoutController extends BaseApiController
 
             $order = Order::where('uuid', $data['order_id'])->firstOrFail();
 
+            if ($error = $this->renewError($order)) {
+                return $this->jsonError($error);
+            }
 
             if ($order->orderable->service->type != ServiceTypeEnum::PART_TIME->value) {
                 return $this->jsonError(__('This order is not part time'));
@@ -93,9 +97,31 @@ class OrderCheckoutController extends BaseApiController
     {
         $order = Order::where('uuid', $request->validated()['order_id'])->firstOrFail();
 
-        $price = (float) ($order->orderable?->price ?? 0);
+        if ($error = $this->renewError($order)) {
+            return $this->jsonError($error);
+        }
 
-        return $this->jsonSuccess((new CheckoutPricingService())->breakdown($price));
+        return $this->jsonSuccess((new CheckoutPricingService())->breakdown((float) $order->orderable->price));
+    }
+
+    /**
+     * Reason the current user can't renew this order, or null when allowed.
+     *
+     * @param Order $order
+     *
+     * @return string|null
+     */
+    private function renewError(Order $order): ?string
+    {
+        if ((int) $order->seeker_id !== (int) request()->user()->id) {
+            return __('This action is unauthorized.');
+        }
+
+        if (!$order->orderable instanceof ServicePackage || !$order->orderable->service) {
+            return __('This order is not part time');
+        }
+
+        return null;
     }
 }
 

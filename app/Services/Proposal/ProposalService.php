@@ -3,6 +3,7 @@
 namespace App\Services\Proposal;
 
 use App\Actions\Attachments\StoreAttachmentAction;
+use App\Enums\ProjectStatusEnum;
 use App\Events\LogExceptionEvent;
 use App\Models\Project;
 use App\Models\Proposal;
@@ -88,6 +89,18 @@ class ProposalService
      */
     private function validateProposal(User $user, Project $project, array $data): void
     {
+        if (!$user->hasRole('provider')) {
+            throw new Exception(__('Only service providers can submit proposals'));
+        }
+
+        if ((int) $project->user_id === (int) $user->id) {
+            throw new Exception(__('You cannot submit a proposal on your own project'));
+        }
+
+        if (!$project->is_approved || $project->status !== ProjectStatusEnum::PENDING->value) {
+            throw new Exception(__('This project is not open for proposals'));
+        }
+
         $existingProposal = Proposal::where('user_id', $user->id)
             ->where('project_id', $project->id)
             ->exists();
@@ -96,6 +109,54 @@ class ProposalService
             throw new Exception(__('You have already submitted a proposal for this project'));
         }
 
+        $this->validateTerms($project, $data);
+    }
+
+    /**
+     * Edit a proposal while the project is still open and it isn't accepted yet
+     *
+     * @param User $user
+     * @param Proposal $proposal
+     * @param array $data
+     *
+     * @return Proposal
+     *
+     * @throws Exception
+     */
+    public function edit(User $user, Proposal $proposal, array $data): Proposal
+    {
+        $project = $proposal->project;
+
+        if ((int) $proposal->user_id !== (int) $user->id) {
+            throw new Exception(__('This action is unauthorized.'));
+        }
+
+        if ($proposal->is_selected || $project->status !== ProjectStatusEnum::PENDING->value) {
+            throw new Exception(__('This proposal can no longer be edited'));
+        }
+
+        $this->validateTerms($project, [
+            'price' => $data['price'] ?? $proposal->price,
+            'time' => $data['time'] ?? $proposal->time,
+        ]);
+
+        $proposal->update($data);
+
+        return $proposal->fresh(['attachments', 'project.category', 'project.subCategory', 'project.user']);
+    }
+
+    /**
+     * Check the proposal price and time fit the project limits
+     *
+     * @param Project $project
+     * @param array $data
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    private function validateTerms(Project $project, array $data): void
+    {
         if ($data['price'] < $project->min_price) {
             throw new Exception(__('The proposal price is below the minimum required price for this project'));
         }

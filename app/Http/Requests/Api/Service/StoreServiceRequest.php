@@ -19,7 +19,7 @@ class StoreServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return auth()->check() && auth()->user()->hasRole('provider');
     }
 
     /**
@@ -32,12 +32,13 @@ class StoreServiceRequest extends FormRequest
         $rules = [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'client_guidelines' => ['required', 'string'],
+            'client_guidelines' => ['nullable', 'string'],
             'category_id' => ['required', 'string', 'exists:categories,uuid'],
             'sub_category_id' => ['required', 'string', 'exists:sub_categories,uuid'],
             'attachments' => ['required', 'array', 'min:1', 'max:5'],
             'attachments.*' => [
                 'file',
+                'mimetypes:image/jpeg,image/png,image/gif,image/webp,video/mp4,video/quicktime,application/pdf',
                 'max:81920'
             ],
             'skill_ids' => ['sometimes', 'array', 'min:1'],
@@ -110,7 +111,8 @@ class StoreServiceRequest extends FormRequest
             'attachments.max' => __('You can upload up to 5 attachments'),
             'attachments.*.file' => __('Each attachment must be a file'),
             'attachments.*.image' => __('Each attachment must be an image'),
-            'attachments.*.mimes' => __('Each attachment must be a valid image type (jpeg, jpg, png, gif, svg, webp)'),
+            'attachments.*.mimes' => __('Each attachment must be an image, a video or a PDF'),
+            'attachments.*.mimetypes' => __('Each attachment must be an image, a video or a PDF'),
             'attachments.*.max' => __('Each attachment must not exceed 8000 kilobytes'),
             'skill_ids.array' => __('Skill IDs must be an array'),
             'skill_ids.min' => __('At least one skill ID is required'),

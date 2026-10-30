@@ -167,18 +167,4 @@ class UserController extends BaseApiController
 
         return $this->jsonSuccess([], __('Password Changed Successfully'));
     }
-
-    /**
-     * Send custom push notification
-     *
-     * @param \App\Http\Requests\Api\User\SendNotificationRequest $request
-     *
-     * @return JsonResponse
-     */
-    public function sendNotification(\App\Http\Requests\Api\User\SendNotificationRequest $request): JsonResponse
-    {
-        $this->service->sendCustomNotification(request()->user(), $request->validated());
-
-        return $this->jsonSuccess([], __('Notification sent successfully'));
-    }
 }

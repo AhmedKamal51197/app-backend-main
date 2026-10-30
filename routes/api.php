@@ -161,11 +161,6 @@ Route::prefix('v1')->group(function () {
      * Pages Routes
      */
     require('Api/User/pages_routes.php');
-
-    /**
-     * FCM Test Routes
-     */
-    require('Api/Test/fcm_test_routes.php');
 });
 
 

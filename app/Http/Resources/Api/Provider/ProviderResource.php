@@ -4,12 +4,10 @@ namespace App\Http\Resources\Api\Provider;
 
 use App\Http\Resources\Admin\Country\CountryResource;
 use App\Http\Resources\Api\Attachment\AttachmentResource;
-use App\Http\Resources\Api\BankAccount\BankAccountResource;
 use App\Http\Resources\Api\Category\CategoryResource;
 use App\Http\Resources\Api\SubCategory\SubCategoryResource;
 use App\Http\Resources\Api\Education\EducationResource;
 use App\Http\Resources\Api\Experience\ExperienceResource;
-use App\Http\Resources\Api\PayPal\PayPalResource;
 use App\Http\Resources\Api\Portfolio\PortfolioResource;
 use App\Http\Resources\Api\Rate\RateResource;
 use App\Http\Resources\Api\Service\ServiceResource;
@@ -39,13 +37,11 @@ class ProviderResource extends JsonResource
             'about' => $this->about,
             'status' => $this->status,
             'avatar' => AttachmentResource::make($this->whenLoaded('avatar')),
-            'rating_avg' => 5.0,
-            'rating_count' => 90,
-            'completed_projects' => 10,
+            'rating_avg' => $this->averageRate(),
+            'rating_count' => $this->ratingsCount(),
+            'completed_projects' => $this->completedProjects(),
             'portfolios' => PortfolioResource::collection($this->whenLoaded('portfolios')),
             'services' => ServiceResource::collection($this->whenLoaded('services')),
-            'bank_details' => BankAccountResource::make($this->whenLoaded('bankAccount')),
-            'paypal_details' => PayPalResource::make($this->whenLoaded('paypal')),
             'role' => $this->getRoleNames()[0],
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),

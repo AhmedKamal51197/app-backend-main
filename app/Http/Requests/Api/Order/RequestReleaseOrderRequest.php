@@ -37,7 +37,7 @@ class RequestReleaseOrderRequest extends FormRequest
         return [
             'details' => ['required', 'string', 'min:3', 'max:255'],
             'attachments' => ['required', 'array', 'min:1', 'max:999'],
-            'attachments.*.file' => ['required', 'file', 'max:902400'],
+            'attachments.*.file' => ['required', 'file', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,mp4,mov', 'max:102400'],
             'attachments.*.file_type' => [
                 'required',
                 Rule::in([

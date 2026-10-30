@@ -36,7 +36,7 @@ class StoreProjectRequest extends FormRequest
             'category_id' => ['required', 'string', 'exists:categories,uuid'],
             'sub_category_id' => ['sometimes', 'string', 'exists:sub_categories,uuid'],
             'attachments' => ['sometimes', 'array', 'max:10'],
-            'attachments.*' => ['file', 'max:81920'],
+            'attachments.*' => ['file', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,mp4,mov', 'max:81920'],
         ];
     }
 
@@ -71,6 +71,7 @@ class StoreProjectRequest extends FormRequest
             'attachments.array' => __('Attachments must be an array'),
             'attachments.max' => __('You can upload up to 10 attachments'),
             'attachments.*.file' => __('Each attachment must be a file'),
+            'attachments.*.mimes' => __('This file type is not allowed'),
             'attachments.*.max' => __('Each attachment must not exceed 8000 kilobytes'),
         ];
     }

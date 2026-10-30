@@ -15,7 +15,6 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::post('/change/password', [UserController::class, 'editPassword']);
     Route::post('/edit/profile', [UserController::class, 'editProfile']);
     Route::post('/edit/category', [UserController::class, 'editCategory']);
-    Route::post('/send-notification', [UserController::class, 'sendNotification']);
     Route::post('/store/category', [UserCategoryController::class, 'storeUserCategory']);
     Route::post('/store/sub-categories', [UserSubCategoryController::class, 'storeUserSubCategories']);
     Route::post('/store/skills', [UserSkillController::class, 'storeUserSkills']);

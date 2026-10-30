@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Proposal;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Proposal\EditProposalRequest;
 use App\Http\Requests\Api\Proposal\StoreProposalRequest;
 use App\Http\Resources\Api\Proposal\ProposalResource;
 use App\Models\Proposal;
@@ -77,6 +78,24 @@ class ProposalController extends Controller
 
         return $this->jsonSuccess(
             ProposalResource::make($proposal)
+        );
+    }
+
+    /**
+     * Edit Proposal
+     *
+     * @param EditProposalRequest $request
+     * @param Proposal $proposal
+     *
+     * @return JsonResponse
+     */
+    public function edit(EditProposalRequest $request, Proposal $proposal): JsonResponse
+    {
+        $proposal = $this->service->edit(request()->user(), $proposal, $request->validated());
+
+        return $this->jsonSuccess(
+            ProposalResource::make($proposal),
+            __('Proposal updated successfully')
         );
     }
 }

@@ -33,7 +33,7 @@ class RateOrderRequest extends FormRequest
     {
 
         return [
-            'rate' => ['required', 'numeric', 'min:3', 'max:5'],
+            'rate' => ['required', 'numeric', 'min:1', 'max:5'],
             'comment' => ['nullable', 'string', 'max:1000'],
         ];
     }
@@ -48,7 +48,7 @@ class RateOrderRequest extends FormRequest
         return [
             'rate.required' => __('Rate is required'),
             'rate.numeric' => __('Rate must be a number'),
-            'rate.min' => __('Rate must be at least 3'),
+            'rate.min' => __('Rate must be at least 1'),
             'rate.max' => __('Rate must not exceed 5'),
             'comment.string' => __('Comment must be a string'),
             'comment.max' => __('Comment must not exceed 1000 characters'),
