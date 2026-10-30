@@ -13,6 +13,7 @@ use App\Http\Resources\Api\Notification\NotificationResource;
 use App\Http\Resources\Api\User\UserResource;
 use App\Models\Setting;
 use App\Services\User\UserService;
+use App\Services\Checkout\CheckoutService;
 use App\Services\Wallet\WalletService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -127,11 +128,12 @@ class UserController extends BaseApiController
      *
      * @return JsonResponse
      */
-    public function storeWallet(StoreWalletRequest $request): JsonResponse
+    public function storeWallet(StoreWalletRequest $request, CheckoutService $checkoutService): JsonResponse
     {
-        WalletService::createWallet(request()->user(), 0, $request->validated()['amount'], 'title', request()->user());
+        // The balance is credited only after the payment is confirmed, never up front.
+        $checkout = $checkoutService->walletCheckout(request()->user(), $request->validated());
 
-        return $this->jsonSuccess([], __('Wallet Updated Successfully'));
+        return $this->jsonSuccess($checkout, __('Checkout Added successfully'));
     }
 
     /**
