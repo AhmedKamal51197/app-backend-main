@@ -71,6 +71,8 @@ class ProposalController extends Controller
      */
     public function show(Proposal $proposal): JsonResponse
     {
+        $this->authorize('own', $proposal);
+
         $proposal->load(['attachments']);
 
         return $this->jsonSuccess(
