@@ -172,4 +172,28 @@ class KycService
             throw $exception;
         }
     }
+
+    /**
+     * Delete a KYC record.
+     *
+     * @param Kyc $kyc
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function delete(Kyc $kyc): void
+    {
+        DB::beginTransaction();
+        try {
+            $kyc->delete();
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            event(new LogExceptionEvent($exception));
+
+            throw $exception;
+        }
+    }
 }

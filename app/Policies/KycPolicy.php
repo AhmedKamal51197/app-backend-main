@@ -45,4 +45,17 @@ class KycPolicy
         }
         return true;
     }
+
+    /**
+     * Authorize delete KYC
+     *
+     * @param User $user
+     * @param Kyc $kyc
+     *
+     * @return bool
+     */
+    public function delete(User $user, Kyc $kyc): bool
+    {
+        return true;
+    }
 }

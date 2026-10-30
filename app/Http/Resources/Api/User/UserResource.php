@@ -59,7 +59,6 @@ class UserResource extends JsonResource
             'educations' => EducationResource::collection($this->whenLoaded('educations')),
             'certificates' => UserCertificateResource::collection($this->whenLoaded('userCertificates')),
             'last_login_at' => $this->last_login_at?->format('Y-m-d H:i:s'),
-            'fcm_token' => $this->fcm_token,
         ];
     }
 }

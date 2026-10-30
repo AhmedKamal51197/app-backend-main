@@ -136,6 +136,10 @@ class Service extends Model
     {
         $user = request()->user();
 
+        if (!$user) {
+            return false;
+        }
+
         return $this->favorites()
             ->where('user_id', $user->id)
             ->exists();

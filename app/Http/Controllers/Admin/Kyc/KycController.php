@@ -98,7 +98,9 @@ class KycController extends BaseAdminController
      */
     public function delete(Kyc $kyc): JsonResponse
     {
-        $kyc->delete();
+        $this->authorize('delete', $kyc);
+
+        $this->service->delete($kyc);
 
         return $this->jsonSuccess([], __('KYC Deleted'));
     }
