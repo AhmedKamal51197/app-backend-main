@@ -14,6 +14,7 @@ use App\Notifications\Receipts\PaymentReceiptNotification;
 use App\Notifications\Wallet\WalletCreditNotification;
 use App\Notifications\Wallet\WalletDebitNotification;
 use App\Services\Receipt\ReceiptService;
+use App\Services\Setting\SettingService;
 use App\Services\Wallet\WalletService;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -122,12 +123,13 @@ class PaymentRequestService
      *
      * @throws Exception
      */
-    public function reject(PaymentRequest $paymentRequest): PaymentRequest
+    public function reject(PaymentRequest $paymentRequest, ?string $notes = null): PaymentRequest
     {
         DB::beginTransaction();
         try {
             $paymentRequest->update([
                 'status' => PaymentRequestStatusEnum::REJECTED->value,
+                'notes' => $notes !== null && $notes !== '' ? $notes : $paymentRequest->notes,
             ]);
 
             WalletService::createWallet($paymentRequest->user, 0, $paymentRequest->getAttribute('amount'), __('Payment Request Rejected'), $paymentRequest);
@@ -162,11 +164,18 @@ class PaymentRequestService
     {
         DB::beginTransaction();
         try {
+            // The freelancer bears the transfer fee: the wallet is debited by the
+            // gross amount and net_amount is what is actually sent to the bank.
+            $fee = SettingService::calculateWithdrawalFee((float) $data['amount']);
+            $netAmount = round((float) $data['amount'] - $fee, 2);
+
             $paymentRequest = PaymentRequest::create([
                 'user_id' => $user->getAttribute('id'),
                 'status' => PaymentRequestStatusEnum::PENDING->value,
                 'amount' => $data['amount'],
-                'notes' => $data['notes'],
+                'fee' => $fee,
+                'net_amount' => $netAmount,
+                'notes' => $data['notes'] ?? null,
             ]);
 
             WalletService::createWallet($user, $data['amount'], 0, __('Payment Request'), $paymentRequest);

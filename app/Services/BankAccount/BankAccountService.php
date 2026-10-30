@@ -101,4 +101,35 @@ class BankAccountService
             throw $exception;
         }
     }
+
+    /**
+     * Delete the user's bank account.
+     *
+     * @param User $user
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function delete(User $user): void
+    {
+        try {
+            DB::beginTransaction();
+
+            $bankAccount = $user->bankAccount;
+
+            if (!$bankAccount) {
+                throw new Exception(__('User doesnt have a bank account'));
+            }
+
+            $bankAccount->delete();
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            event(new LogExceptionEvent($exception));
+
+            throw $exception;
+        }
+    }
 }

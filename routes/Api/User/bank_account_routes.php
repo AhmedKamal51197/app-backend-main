@@ -8,4 +8,5 @@ Route::prefix('bank-account')->middleware('auth:api')->group(function () {
     Route::get('/', [BankAccountController::class, 'userBankAccount']);
     Route::post('/store', [BankAccountController::class, 'store']);
     Route::post('/update', [BankAccountController::class, 'update']);
+    Route::delete('/delete', [BankAccountController::class, 'destroy']);
 });

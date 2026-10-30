@@ -3,6 +3,7 @@
 namespace App\Services\Setting;
 
 use App\Actions\Attachments\StoreAttachmentAction;
+use App\Enums\SettingsEnum;
 use App\Models\Setting;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -94,5 +95,49 @@ class SettingService
             ['setting_name' => 'minimum_payment_request_amount'],
             ['setting_value' => $data['minimum_payment_request_amount']]
         );
+
+        if (array_key_exists('withdrawal_fee_fixed', $data)) {
+            Setting::updateOrCreate(
+                ['setting_name' => SettingsEnum::WITHDRAWAL_FEE_FIXED->value],
+                ['setting_value' => $data['withdrawal_fee_fixed']]
+            );
+        }
+
+        if (array_key_exists('withdrawal_fee_percentage', $data)) {
+            Setting::updateOrCreate(
+                ['setting_name' => SettingsEnum::WITHDRAWAL_FEE_PERCENTAGE->value],
+                ['setting_value' => $data['withdrawal_fee_percentage']]
+            );
+        }
+    }
+
+    /**
+     * Read the configured withdrawal transfer fee (fixed amount + percentage).
+     *
+     * @return array{fixed: float, percentage: float}
+     */
+    public static function withdrawalFeeConfig(): array
+    {
+        return [
+            'fixed' => (float) (Setting::where('setting_name', SettingsEnum::WITHDRAWAL_FEE_FIXED->value)->value('setting_value') ?? 0),
+            'percentage' => (float) (Setting::where('setting_name', SettingsEnum::WITHDRAWAL_FEE_PERCENTAGE->value)->value('setting_value') ?? 0),
+        ];
+    }
+
+    /**
+     * Calculate the transfer fee charged to the freelancer for a withdrawal.
+     * The fee never exceeds the requested amount.
+     *
+     * @param float $amount
+     *
+     * @return float
+     */
+    public static function calculateWithdrawalFee(float $amount): float
+    {
+        $config = self::withdrawalFeeConfig();
+
+        $fee = $config['fixed'] + ($amount * $config['percentage'] / 100);
+
+        return round(min($fee, $amount), 2);
     }
 }

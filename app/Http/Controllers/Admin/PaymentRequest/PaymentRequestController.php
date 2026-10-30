@@ -118,11 +118,11 @@ class PaymentRequestController extends BaseAdminController
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function reject(PaymentRequest $paymentRequest): JsonResponse
+    public function reject(Request $request, PaymentRequest $paymentRequest): JsonResponse
     {
         $this->authorize('reject', $paymentRequest);
 
-        $this->service->reject($paymentRequest);
+        $this->service->reject($paymentRequest, $request->input('notes', $request->input('reason')));
 
         return $this->jsonSuccess([], __('Payment request successfully rejected'));
     }

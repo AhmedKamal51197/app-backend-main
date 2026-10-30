@@ -70,6 +70,11 @@ Route::prefix('v1')->middleware('administrator')->group(function () {
     require('Api/Admin/payment_requests_routes.php');
 
     /**
+     * Bank Accounts Routes
+     */
+    require('Api/Admin/bank_accounts_routes.php');
+
+    /**
      * Wallets Routes
      */
     require('Api/Admin/wallet_routes.php');
@@ -83,6 +88,11 @@ Route::prefix('v1')->middleware('administrator')->group(function () {
      * Refunds Routes
      */
     require('Api/Admin/refunds_routes.php');
+
+    /**
+     * Refund Requests Routes (approve/reject)
+     */
+    require('Api/Admin/refund_requests_routes.php');
 
     /**
      * Analysis Routes

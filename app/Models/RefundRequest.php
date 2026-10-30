@@ -25,6 +25,15 @@ class RefundRequest extends Model
     protected $guarded = ['id'];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'released_at' => 'datetime',
+    ];
+
+    /**
      * Morph relation to determine from any model the checkout created
      *
      * @return MorphTo

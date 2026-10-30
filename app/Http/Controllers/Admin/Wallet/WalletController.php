@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Wallet;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Resources\Admin\PaymentRequest\PaymentRequestResource;
 use App\Http\Resources\Admin\Receipt\ReceiptResource;
+use App\Http\Resources\Admin\RefundRequest\RefundRequestResource;
 use App\Http\Resources\Admin\User\UserMiniResource;
 use App\Http\Resources\Admin\Wallet\DepositResource;
 use App\Models\Setting;
@@ -45,6 +46,9 @@ class WalletController extends BaseAdminController
             'withdrawals_limit' => $request->input('withdrawals_limit', Setting::PAGE_RESULT_LIMIT),
             'withdrawals_page' => $request->input('withdrawals_page', Setting::PAGE),
             'withdrawal_status' => $request->input('withdrawal_status', ''),
+            'refunds_limit' => $request->input('refunds_limit', Setting::PAGE_RESULT_LIMIT),
+            'refunds_page' => $request->input('refunds_page', Setting::PAGE),
+            'refund_status' => $request->input('refund_status', ''),
         ];
 
         $result = $this->service->index($data);
@@ -79,6 +83,15 @@ class WalletController extends BaseAdminController
                         'current_page' => $result['withdrawals']->currentPage(),
                         'total_items' => $result['withdrawals']->total(),
                         'per_page' => $result['withdrawals']->perPage(),
+                    ],
+                ],
+                'refunds' => [
+                    'data' => RefundRequestResource::collection($result['refunds']),
+                    'meta' => [
+                        'total_pages' => $result['refunds']->lastPage(),
+                        'current_page' => $result['refunds']->currentPage(),
+                        'total_items' => $result['refunds']->total(),
+                        'per_page' => $result['refunds']->perPage(),
                     ],
                 ],
             ],
