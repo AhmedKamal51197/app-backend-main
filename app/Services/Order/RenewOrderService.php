@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\PaymentGateway\PaymentGatewayCheckout;
 use App\Models\ServicePackage;
 use App\Models\User;
+use App\Services\Checkout\CheckoutPricingService;
 use App\Services\Notifications\OrderNotificationService;
 use App\Services\Payment\MyFatoorahService;
 use App\Services\Payment\TapService;
@@ -57,7 +58,7 @@ class RenewOrderService
             $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
 
             $checkout = PaymentGatewayCheckout::create([
-                'amount' => $package->getAttribute('price') + ($package->getAttribute('price') * $commissionSetting->value),
+                'amount' => (new CheckoutPricingService())->total((float) $package->getAttribute('price')),
                 'payable_id' => $order->getAttribute('id'),
                 'payable_type' => Order::class,
                 'user_id' => $user->getAttribute('id'),

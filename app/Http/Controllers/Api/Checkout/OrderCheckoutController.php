@@ -8,6 +8,7 @@ use App\Events\LogExceptionEvent;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\Checkout\OrderCheckoutRequest;
 use App\Models\Order;
+use App\Services\Checkout\CheckoutPricingService;
 use App\Services\Order\RenewOrderService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -79,6 +80,22 @@ class OrderCheckoutController extends BaseApiController
 
             return $this->jsonError(__('Error while creating checkout, please try again later'));
         }
+    }
+
+    /**
+     * Invoice breakdown for renewing an order, shown before payment.
+     *
+     * @param OrderCheckoutRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function preview(OrderCheckoutRequest $request): JsonResponse
+    {
+        $order = Order::where('uuid', $request->validated()['order_id'])->firstOrFail();
+
+        $price = (float) ($order->orderable?->price ?? 0);
+
+        return $this->jsonSuccess((new CheckoutPricingService())->breakdown($price));
     }
 }
 

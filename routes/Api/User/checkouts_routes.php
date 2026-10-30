@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('checkouts')->middleware('auth:api')->group(callback: function () {
     Route::post('/service', [ServiceCheckoutController::class, 'checkout']);
+    Route::post('/service/preview', [ServiceCheckoutController::class, 'preview']);
     Route::post('/order', [OrderCheckoutController::class, 'checkout']);
+    Route::post('/order/preview', [OrderCheckoutController::class, 'preview']);
     Route::post('/project', [ProjectCheckoutController::class, 'checkout']);
+    Route::post('/project/preview', [ProjectCheckoutController::class, 'preview']);
     Route::get('/payment-methods', [MyFatoorahPaymentMethodsController::class, 'checkout']);
     Route::get('/{reference}/status', [CheckoutStatusController::class, 'show'])
         ->middleware('throttle:30,1')

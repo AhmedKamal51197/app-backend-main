@@ -51,7 +51,7 @@ class ProjectCheckoutService
             $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
 
             $checkout = PaymentGatewayCheckout::create([
-                'amount' => $proposal->price + ($proposal->price * $commissionSetting->value),
+                'amount' => (new CheckoutPricingService())->total((float) $proposal->price),
                 'payable_id' => $project->id,
                 'payable_type' => Project::class,
                 'user_id' => $user->id,

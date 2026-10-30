@@ -51,7 +51,7 @@ class CheckoutService
             $gateway = config('tap.enabled') ? PaymentGatewaysEnum::TAP : PaymentGatewaysEnum::MYFATOORAH;
 
             $checkout = PaymentGatewayCheckout::create([
-                'amount' => $package->getAttribute('price') + ($package->getAttribute('price') * $commissionSetting->value),
+                'amount' => (new CheckoutPricingService())->total((float) $package->getAttribute('price')),
                 'payable_id' => $package->getAttribute('id'),
                 'payable_type' => ServicePackage::class,
                 'user_id' => $user->getAttribute('id'),

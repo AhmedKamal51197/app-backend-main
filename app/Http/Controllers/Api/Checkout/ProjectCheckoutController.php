@@ -6,6 +6,7 @@ use App\Events\LogExceptionEvent;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\Checkout\ProjectCheckoutRequest;
 use App\Models\Project;
+use App\Services\Checkout\CheckoutPricingService;
 use App\Services\Checkout\ProjectCheckoutService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -47,5 +48,21 @@ class ProjectCheckoutController extends BaseApiController
 
             return $this->jsonError(__('Error while creating checkout, please try again later'));
         }
+    }
+
+    /**
+     * Invoice breakdown for the accepted proposal, shown before payment.
+     *
+     * @param ProjectCheckoutRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function preview(ProjectCheckoutRequest $request): JsonResponse
+    {
+        $project = Project::where('uuid', $request->validated()['project_id'])->firstOrFail();
+
+        $price = (float) ($project->selectedProposal?->price ?? 0);
+
+        return $this->jsonSuccess((new CheckoutPricingService())->breakdown($price));
     }
 }

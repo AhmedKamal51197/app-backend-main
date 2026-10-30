@@ -6,6 +6,7 @@ use App\Events\LogExceptionEvent;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\Checkout\ServiceCheckoutRequest;
 use App\Models\ServicePackage;
+use App\Services\Checkout\CheckoutPricingService;
 use App\Services\Checkout\CheckoutService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -50,6 +51,21 @@ class ServiceCheckoutController extends BaseApiController
 
             return $this->jsonError(__('Error while creating checkout, please try again later'));
         }
+    }
+
+    /**
+     * Invoice breakdown (service price + platform commission + gateway fee)
+     * to show the buyer before starting payment.
+     *
+     * @param ServiceCheckoutRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function preview(ServiceCheckoutRequest $request): JsonResponse
+    {
+        $package = ServicePackage::where('uuid', $request->validated()['package_id'])->firstOrFail();
+
+        return $this->jsonSuccess((new CheckoutPricingService())->breakdown((float) $package->getAttribute('price')));
     }
 }
 
