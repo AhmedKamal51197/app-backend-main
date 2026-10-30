@@ -94,9 +94,10 @@ class ServiceService
                 || $userSubCategoryIds->isNotEmpty()
                 || $userSkillIds->isNotEmpty();
 
+            // No interests yet (e.g. a client who hasn't picked any category,
+            // sub-category or skill): fall back to all approved services so the
+            // "especially for you" section is never empty.
             if (!$hasInterests) {
-                $q->whereRaw('1 = 0');
-
                 return;
             }
 
