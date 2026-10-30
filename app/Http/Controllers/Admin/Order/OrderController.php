@@ -58,7 +58,7 @@ class OrderController extends BaseAdminController
      */
     public function pending(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::APPROVAL_PENDING->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::APPROVAL_PENDING->value]);
     }
 
 
@@ -71,7 +71,7 @@ class OrderController extends BaseAdminController
      */
     public function rejected(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::REJECTED->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::REJECTED->value]);
     }
 
     /**
@@ -83,7 +83,11 @@ class OrderController extends BaseAdminController
      */
     public function inProgress(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::IN_PROGRESS->value, OrderStatusEnum::REVISION->value, OrderStatusEnum::RELEASE_PENDING->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [
+            OrderStatusEnum::IN_PROGRESS->value,
+            OrderStatusEnum::REVISION->value,
+            OrderStatusEnum::RELEASE_PENDING->value,
+        ]);
     }
 
     /**
@@ -95,7 +99,7 @@ class OrderController extends BaseAdminController
      */
     public function released(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::RELEASED->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::RELEASED->value]);
     }
 
     /**
@@ -107,7 +111,7 @@ class OrderController extends BaseAdminController
      */
     public function refunded(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::REFUNDED->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::REFUNDED->value]);
     }
 
     /**
@@ -119,7 +123,7 @@ class OrderController extends BaseAdminController
      */
     public function completed(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::COMPLETED->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::COMPLETED->value]);
     }
 
     /**
@@ -131,7 +135,11 @@ class OrderController extends BaseAdminController
      */
     public function disputed(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::DISPUTED->value, OrderStatusEnum::CANCEL_PENDING->value,  OrderStatusEnum::CANCELLED->value, ], $request->input('limit', Setting::PAGE_RESULT_LIMIT), true)));
+        return $this->ordersByStatuses($request, [
+            OrderStatusEnum::DISPUTED->value,
+            OrderStatusEnum::CANCEL_PENDING->value,
+            OrderStatusEnum::CANCELLED->value,
+        ], true);
     }
 
     /**
@@ -143,7 +151,27 @@ class OrderController extends BaseAdminController
      */
     public function cancelled(Request $request): JsonResponse
     {
-        return $this->jsonSuccess(OrderResource::collection($this->service->indexByStatuses([OrderStatusEnum::CANCELLED->value], $request->input('limit', Setting::PAGE_RESULT_LIMIT))));
+        return $this->ordersByStatuses($request, [OrderStatusEnum::CANCELLED->value]);
+    }
+
+    /**
+     * List orders filtered by a set of statuses (shared by the status lists above).
+     *
+     * @param Request $request
+     * @param array<int, string> $statuses
+     * @param bool $loadData
+     *
+     * @return JsonResponse
+     */
+    private function ordersByStatuses(Request $request, array $statuses, bool $loadData = false): JsonResponse
+    {
+        return $this->jsonSuccess(OrderResource::collection(
+            $this->service->indexByStatuses(
+                $statuses,
+                $request->input('limit', Setting::PAGE_RESULT_LIMIT),
+                $loadData
+            )
+        ));
     }
 
     /**
