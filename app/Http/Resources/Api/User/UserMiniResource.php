@@ -25,7 +25,8 @@ class UserMiniResource extends JsonResource
             'id' => $this->uuid,
             'name' => $this->name,
             'status' => $this->status,
-            'email' => $this->email,
+            // Other users' emails stay private; only the user sees their own
+            'email' => $this->when((int) $this->id === (int) auth()->id(), $this->email),
             'avatar' => AttachmentResource::make($this->whenLoaded('avatar')),
             'role' => $this->getRoleNames()[0],
             'rate' => $this->averageRate(),
