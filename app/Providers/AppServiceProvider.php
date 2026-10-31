@@ -2,7 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Kyc;
 use App\Models\Order;
+use App\Models\PaymentRequest;
+use App\Models\Project;
+use App\Models\RefundRequest;
+use App\Models\Report;
+use App\Models\Service;
+use App\Observers\DashboardNotificationObserver;
 use App\Observers\OrderObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -30,5 +37,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Order::observe(OrderObserver::class);
+
+        foreach ([Project::class, Service::class, Order::class, RefundRequest::class, PaymentRequest::class, Report::class, Kyc::class] as $model) {
+            $model::observe(DashboardNotificationObserver::class);
+        }
     }
 }
