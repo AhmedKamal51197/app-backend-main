@@ -25,6 +25,8 @@ class Order extends Model
         'released_at' => 'datetime',
         'cancelled_at' => 'datetime',
         'completed_at' => 'datetime',
+        'disputed_at' => 'datetime',
+        'refunded_at' => 'datetime',
     ];
     /**
      * Guarded (id)
