@@ -33,8 +33,11 @@ class RefundRequestResource extends JsonResource
             'balance_before' => $this->when(isset($this->balance_before), round($this->balance_before ?? 0, 2)),
             'balance_after' => $this->when(isset($this->balance_after), round($this->balance_after ?? 0, 2)),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
             'released_at' => $this->released_at?->format('Y-m-d H:i:s'),
+            'released_at_iso' => $this->released_at?->toIso8601String(),
         ];
     }
 }

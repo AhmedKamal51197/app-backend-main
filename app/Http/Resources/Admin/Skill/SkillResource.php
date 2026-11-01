@@ -25,7 +25,9 @@ class SkillResource extends JsonResource
             'title_ar' => $this->title_ar,
             'title_en' => $this->title_en,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
             'category' => CategoryResource::make($this->whenLoaded('category')),
         ];
     }

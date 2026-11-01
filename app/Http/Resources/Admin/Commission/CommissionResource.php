@@ -26,7 +26,9 @@ class CommissionResource extends JsonResource
             'orderable_type' => $this->orderable_type,
             'payable' => OrderResource::make($this->whenLoaded('payable')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

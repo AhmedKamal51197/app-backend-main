@@ -28,6 +28,7 @@ class DepositResource extends JsonResource
             'balance_after' => round($this->balance_after ?? 0, 2),
             'payment_method' => $this->referencable?->payment_gateway ?? null,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
         ];
     }
 }

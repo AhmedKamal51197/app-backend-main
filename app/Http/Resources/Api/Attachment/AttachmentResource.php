@@ -28,6 +28,7 @@ class AttachmentResource extends JsonResource
             'document_type' => $this->document_type,
             'disk' => $this->disk,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
         ];
     }
 

@@ -28,8 +28,11 @@ class PaymentRequestResource extends JsonResource
             'notes' => $this->notes,
             'user' => UserMiniResource::make($this->whenLoaded('user')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
             'release_at' => $this->release_at?->format('Y-m-d H:i:s'),
+            'release_at_iso' => $this->release_at?->toIso8601String(),
         ];
     }
 }

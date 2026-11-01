@@ -47,6 +47,7 @@ class UserMiniResource extends JsonResource
             'projects_count' => $this->when(isset($this->projects_count), $this->projects_count),
             'services_count' => $this->when(isset($this->services_count), $this->services_count),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
         ];
     }
 }

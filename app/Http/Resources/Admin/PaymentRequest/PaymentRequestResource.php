@@ -30,8 +30,11 @@ class PaymentRequestResource extends JsonResource
             'current_balance' => $this->when(isset($this->current_balance), round($this->current_balance ?? 0, 2)),
             'withdrawal_methods' => $this->when(isset($this->withdrawal_methods), $this->withdrawal_methods ?? []),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
             'release_at' => $this->release_at?->format('Y-m-d H:i:s'),
+            'release_at_iso' => $this->release_at?->toIso8601String(),
         ];
     }
 }

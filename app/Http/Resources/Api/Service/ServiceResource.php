@@ -47,7 +47,9 @@ class ServiceResource extends JsonResource
             'ordered_at' => $this->when(isset($this->order_date), $this->order_date),
             'completed_at' => $this->when(isset($this->completed_at), $this->completed_at),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
             'chats' =>  ChatResource::collection($this->whenLoaded('chats'))
         ];
     }

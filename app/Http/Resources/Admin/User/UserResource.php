@@ -50,6 +50,7 @@ class UserResource extends JsonResource
             'paypal_details' => PayPalResource::make($this->whenLoaded('paypal')),
             'role' => $this->getRoleNames()[0],
             'last_login_at' => $this->last_login_at?->format('Y-m-d H:i:s'),
+            'last_login_at_iso' => $this->last_login_at?->toIso8601String(),
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'country' => CountryResource::make($this->whenLoaded('country')),
             'sub_categories' => UserSubCategoryResource::collection($this->whenLoaded('userSubCategories')),

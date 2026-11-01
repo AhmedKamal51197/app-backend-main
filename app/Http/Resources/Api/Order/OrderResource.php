@@ -36,8 +36,11 @@ class OrderResource extends JsonResource
             'commissions' => $this->commissions,
             'status' => $this->status,
             'approved_at' => $this->approved_at?->format('Y-m-d H:i:s'),
+            'approved_at_iso' => $this->approved_at?->toIso8601String(),
             'released_at' => $this->released_at?->format('Y-m-d H:i:s'),
+            'released_at_iso' => $this->released_at?->toIso8601String(),
             'cancelled_at' => $this->cancelled_at?->format('Y-m-d H:i:s'),
+            'cancelled_at_iso' => $this->cancelled_at?->toIso8601String(),
             'cancellation_reason' => $this->cancellation_reason,
             'cancelled_by' => $this->cancelled_by,
             'disputed_reason' => $this->disputed_reason,
@@ -54,7 +57,9 @@ class OrderResource extends JsonResource
             'rates' => RateResource::collection($this->whenLoaded('rates')),
             'main_order' => $this->main_order,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
         ];
     }
 

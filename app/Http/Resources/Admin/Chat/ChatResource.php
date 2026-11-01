@@ -34,9 +34,12 @@ class ChatResource extends JsonResource
             'participants' => UserMiniResource::collection($this->whenLoaded('participants')),
             'messages' => MessageResource::collection($this->whenLoaded('messages')),
             'last_message_at' => $this->last_message_at?->format('Y-m-d H:i:s'),
+            'last_message_at_iso' => $this->last_message_at?->toIso8601String(),
             'is_active' => $this->is_active,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'updated_at_iso' => $this->updated_at?->toIso8601String(),
         ];
     }
 

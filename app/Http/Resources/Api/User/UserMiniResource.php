@@ -33,6 +33,7 @@ class UserMiniResource extends JsonResource
             'rates_number' => $this->ratingsCount(),
             'category' => UserCategoryResource::make($this->whenLoaded('category')),
             'last_login_at' => $this->last_login_at?->format('Y-m-d H:i:s'),
+            'last_login_at_iso' => $this->last_login_at?->toIso8601String(),
         ];
     }
 }
