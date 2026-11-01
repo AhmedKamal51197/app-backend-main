@@ -86,6 +86,9 @@ class ProjectService
                 'user_id' => $user->id,
                 'category_id' => Category::where('uuid', $data['category_id'])->value('id'),
                 'sub_category_id' => isset($data['sub_category_id']) ? SubCategory::where('uuid', $data['sub_category_id'])->value('id') : null,
+                // Submitted straight for admin review: is_approved gates visibility,
+                // so the project no longer waits as a draft for a publish call.
+                'status' => ProjectStatusEnum::PENDING->value,
                 'is_approved' => false,
             ]);
 
