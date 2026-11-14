@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Page;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Page\PageResource;
+use App\Http\Resources\Api\Page\PublicPageResource;
 use App\Models\Page;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -28,6 +28,10 @@ class PageController extends Controller
             return $this->jsonError(__('Page not found'), 404);
         }
 
-        return $this->jsonSuccess(PageResource::make($page));
+        $page->load('sections');
+        $lang = PublicPageResource::languageFor(app()->getLocale(), $page->en_enabled);
+
+        return $this->jsonSuccessWithStrings(PublicPageResource::make($page)->resolve())
+            ->header('Content-Language', $lang);
     }
 }

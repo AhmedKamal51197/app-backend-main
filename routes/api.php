@@ -161,6 +161,11 @@ Route::prefix('v1')->group(function () {
      * Pages Routes
      */
     require('Api/User/pages_routes.php');
+
+    /**
+     * Public Settings Routes (website)
+     */
+    require('Api/User/public_settings_routes.php');
 });
 
 

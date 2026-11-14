@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Faq;
 
 use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Requests\Admin\Faq\ReorderFaqsRequest;
 use App\Http\Requests\Admin\Faq\StoreFaqRequest;
 use App\Http\Requests\Admin\Faq\UpdateFaqRequest;
 use App\Http\Resources\Admin\Faq\FaqResource;
@@ -82,6 +83,16 @@ class FaqController extends BaseApiController
      *
      * @return JsonResponse
      */
+    /**
+     * Save the display order after drag & drop: { "ids": ["uuid", ...] }.
+     */
+    public function reorder(ReorderFaqsRequest $request): JsonResponse
+    {
+        $this->service->reorder($request->validated()['ids']);
+
+        return $this->jsonSuccess([], __('FAQ order updated successfully'));
+    }
+
     public function destroy(Faq $faq): JsonResponse
     {
         $this->service->delete($faq);

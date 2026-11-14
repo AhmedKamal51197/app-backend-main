@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('faqs')->group(function () {
     Route::get('/', [FaqController::class, 'index'])->middleware('permission:Index FAQs');
     Route::post('/add', [FaqController::class, 'store'])->middleware('permission:Add FAQs');
+    Route::post('/reorder', [FaqController::class, 'reorder'])->middleware('permission:Edit FAQs');
     Route::prefix('/{faq}')->group(function () {
         Route::get('/', [FaqController::class, 'show'])->middleware('permission:Details FAQs');
         Route::post('/edit', [FaqController::class, 'update'])->middleware('permission:Edit FAQs');

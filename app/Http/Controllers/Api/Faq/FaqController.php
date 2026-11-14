@@ -26,6 +26,11 @@ class FaqController extends BaseApiController
      */
     public function index(Request $request): JsonResponse
     {
+        // Website FAQs: ?show_on_landing=1, ordered, without pagination.
+        if ($request->boolean('show_on_landing')) {
+            return $this->jsonSuccess(FaqResource::collection($this->service->website()));
+        }
+
         $faqs = $this->service->index(
             $request->input('limit', Setting::PAGE_RESULT_LIMIT),
             $request->input('type', ''),

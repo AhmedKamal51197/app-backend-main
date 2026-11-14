@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Setting;
 
+use App\Jobs\NotifyWebsiteContentChanged;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Requests\Admin\Setting\UpdateSettingRequest;
 use App\Http\Requests\Admin\Setting\UpdateWithdrawalSettingsRequest;
@@ -65,6 +66,8 @@ class SettingController extends BaseAdminController
     public function update(UpdateSettingRequest $request, Setting $setting): JsonResponse
     {
         $setting = $this->service->update($setting, $request->validated());
+
+        NotifyWebsiteContentChanged::send('settings');
 
         return $this->jsonSuccess(SettingResource::make($setting), __('Setting updated successfully'));
     }

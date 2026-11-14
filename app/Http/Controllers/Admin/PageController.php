@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\Page\SavePageRequest;
 use App\Http\Requests\Admin\Page\UpdatePageRequest;
 use App\Http\Resources\Admin\Page\PageResource;
 use App\Models\Page;
@@ -47,7 +48,23 @@ class PageController extends BaseAdminController
      */
     public function show(Page $page): JsonResponse
     {
-        return $this->jsonSuccess(PageResource::make($page));
+        return $this->jsonSuccessWithStrings(PageResource::make($page->load('sections'))->resolve());
+    }
+
+    /**
+     * Save the page with all its sections (both languages) in one go.
+     *
+     * @param SavePageRequest $request
+     * @param Page $page
+     *
+     * @return JsonResponse
+     */
+    public function save(SavePageRequest $request, Page $page): JsonResponse
+    {
+        $page = $this->service->save($page, $request->validated());
+
+        // Versions like "1.0" and slugs must stay strings (no numeric conversion).
+        return $this->jsonSuccessWithStrings(PageResource::make($page)->resolve(), __('Page updated successfully'));
     }
 
     /**

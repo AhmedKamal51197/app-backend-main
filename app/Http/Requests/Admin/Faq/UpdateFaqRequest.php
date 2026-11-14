@@ -22,6 +22,31 @@ class UpdateFaqRequest extends FormRequest
             'answer_en' => ['sometimes', 'string'],
             'type' => ['sometimes', 'nullable', Rule::in(UserTypesEnum::toArray())],
             'is_active' => ['sometimes', 'boolean'],
+            'show_on_landing' => ['sometimes', 'boolean'],
+            'sort_order' => ['sometimes', 'integer', 'min:0'],
         ];
+    }
+
+    /**
+     * A question shown on the website must have its English text too, since
+     * the website shows it in both languages.
+     */
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $faq = $this->route('faq');
+            $showOnWebsite = $this->has('show_on_landing') ? $this->boolean('show_on_landing') : (bool) $faq?->show_on_landing;
+
+            if (!$showOnWebsite) {
+                return;
+            }
+
+            foreach (['question_en', 'answer_en'] as $field) {
+                $value = $this->has($field) ? $this->input($field) : $faq?->{$field};
+                if (blank($value)) {
+                    $validator->errors()->add($field, __('English text is required for questions shown on the website'));
+                }
+            }
+        });
     }
 }

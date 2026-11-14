@@ -1,0 +1,83 @@
+[
+  {
+    "sort_order": 1,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "هل أحتاج إلى معرفة الخدمة التي أريدها مسبقًا؟",
+    "question_en": "Do I need to know the exact service I want in advance?",
+    "answer_ar": "ليس بالضرورة. يمكنك البحث عن خدمة جاهزة إذا كنت تعرف ما تحتاجه، أو نشر طلب إذا كان لديك احتياج خاص وتريد استقبال عروض من المختصين.",
+    "answer_en": "Not necessarily. You can browse ready-made services if you know what you need, or post a custom request if you have a specific requirement and want to receive proposals from specialists."
+  },
+  {
+    "sort_order": 2,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "كيف أبحث عن مستقل مناسب؟",
+    "question_en": "How do I find a suitable freelancer?",
+    "answer_ar": "يمكنك تصفح المستقلين، الاطلاع على ملفاتهم الشخصية، ومراجعة مهاراتهم وأعمالهم السابقة قبل البدء.",
+    "answer_en": "You can browse specialists, view their profiles, and review their skills and past work before getting started."
+  },
+  {
+    "sort_order": 3,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "هل يمكنني طلب أكثر من خدمة في نفس الوقت؟",
+    "question_en": "Can I request more than one service at the same time?",
+    "answer_ar": "نعم، يمكنك إنشاء وإدارة عدة طلبات وخدمات في نفس الوقت حسب احتياجك.",
+    "answer_en": "Yes, you can create and manage multiple orders and services simultaneously according to your needs."
+  },
+  {
+    "sort_order": 4,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "كيف يضمن معاون حقوق العميل والمستقل؟",
+    "question_en": "How does Moawen protect both the client and the freelancer?",
+    "answer_ar": "يتم الاحتفاظ بالمبلغ داخل المنصة حتى تأكيد استلام الطلب، وفي حال وجود مشكلة يمكن رفع بلاغ ليتم مراجعة الحالة من قبل فريق الدعم.",
+    "answer_en": "Funds are held safely inside the platform until order receipt is confirmed; if an issue arises, a report can be submitted for support review."
+  },
+  {
+    "sort_order": 5,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "هل يمكنني التفاوض على السعر أو مدة التنفيذ؟",
+    "question_en": "Can I negotiate the price or delivery duration?",
+    "answer_ar": "نعم، يمكن للطرفين الاتفاق على السعر والتفاصيل المناسبة قبل بدء العمل.",
+    "answer_en": "Yes, both parties can agree on the suitable price and details before starting work."
+  },
+  {
+    "sort_order": 6,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "ماذا أفعل إذا لم أجد الخدمة التي أبحث عنها؟",
+    "question_en": "What if I don't find the exact service I'm looking for?",
+    "answer_ar": "يمكنك نشر طلبك داخل المنصة ليتمكن المستقلون من الاطلاع عليه والتقدم لتنفيذه.",
+    "answer_en": "You can publish your request inside the platform so specialists can view it and submit proposals to execute it."
+  },
+  {
+    "sort_order": 7,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "هل بياناتي ومدفوعاتي آمنة؟",
+    "question_en": "Are my data and payments secure?",
+    "answer_ar": "نعمل على توفير بيئة آمنة لحماية بيانات المستخدمين وتنظيم العمليات داخل المنصة.",
+    "answer_en": "We maintain a secure environment to protect user data and regulate all operations inside the platform."
+  },
+  {
+    "sort_order": 8,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "هل معاون متاح خارج السعودية؟",
+    "question_en": "Is Moawen available outside Saudi Arabia?",
+    "answer_ar": "نعم، يمكن استخدام المنصة من مختلف دول العالم.",
+    "answer_en": "Yes, the platform can be used from countries around the world."
+  },
+  {
+    "sort_order": 9,
+    "type": null,
+    "show_on_landing": true,
+    "question_ar": "كيف أتواصل مع الدعم؟",
+    "question_en": "How do I contact support?",
+    "answer_ar": "يمكنك التواصل مع فريق الدعم عبر صفحة “الدعم الفني” في التطبيق أو عبر البريد الإلكتروني الرسمي support@moawen.sa، وسيتم الرد عليك في أقرب وقت ممكن.",
+    "answer_en": "You can reach the support team via the Technical Support page in the app or by emailing the official address support@moawen.sa, and we will respond as soon as possible."
+  }
+]

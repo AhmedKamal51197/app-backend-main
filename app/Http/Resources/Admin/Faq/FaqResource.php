@@ -25,6 +25,8 @@ class FaqResource extends JsonResource
             'answer_en' => $this->answer_en,
             'type' => $this->type,
             'is_active' => $this->is_active,
+            'show_on_landing' => $this->show_on_landing,
+            'sort_order' => $this->sort_order,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'created_at_iso' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),

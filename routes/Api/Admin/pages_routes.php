@@ -8,5 +8,6 @@ Route::prefix('pages')->group(function () {
     Route::prefix('{page:key}')->group(function () {
         Route::get('/', [PageController::class, 'show'])->middleware('permission:Details Pages');
         Route::post('/edit', [PageController::class, 'update'])->middleware('permission:Edit Pages');
+        Route::put('/', [PageController::class, 'save'])->middleware('permission:Edit Pages');
     });
 });

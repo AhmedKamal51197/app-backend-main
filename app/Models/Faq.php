@@ -15,7 +15,11 @@ class Faq extends Model
 
     protected $guarded = ['id', 'uuid'];
 
-    protected $casts = ['is_active' => 'boolean'];
+    protected $casts = [
+        'is_active' => 'boolean',
+        'show_on_landing' => 'boolean',
+        'sort_order' => 'integer',
+    ];
 
     /**
      * Return the question that's with the user locale
