@@ -24,8 +24,10 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::post('delete/certificate/{certificate}', [UserCertificateController::class, 'removeUserCertificate']);
     Route::post('edit/certificate/{certificate}', [UserCertificateController::class, 'editUserCertificate']);
     Route::post('/wallet/add', [UserController::class, 'storeWallet']);
-    Route::get('home', [UserController::class, 'home']);
     Route::get('notifications', [UserController::class, 'notifications']);
     Route::get('dashboard', [DashboardController::class, 'analytics']);
     Route::post('change-status', [UserStatusController::class, 'changeStatus']);
 });
+
+// Home screen data is public (guest mode); a token is optional.
+Route::get('user/home', [UserController::class, 'home'])->middleware('auth.optional');

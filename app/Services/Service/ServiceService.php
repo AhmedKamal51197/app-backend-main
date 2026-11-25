@@ -81,13 +81,14 @@ class ServiceService
      *
      * @return LengthAwarePaginator
      */
-    public function indexByUserInterests(User $user, int $limit, int $page): LengthAwarePaginator
+    public function indexByUserInterests(?User $user, int $limit, int $page): LengthAwarePaginator
     {
         $query = Service::query()->with(['user', 'category', 'subCategory', 'attachments', 'packages', 'skills', 'skills.skill']);
 
-        $userCategoryIds = collect([$user->category_id])->filter();
-        $userSubCategoryIds = $user->userSubCategories()->pluck('sub_category_id');
-        $userSkillIds = $user->userSkills()->pluck('skill_id');
+        // Guests have no interests: they get the approved services (same fallback).
+        $userCategoryIds = collect([$user?->category_id])->filter();
+        $userSubCategoryIds = $user ? $user->userSubCategories()->pluck('sub_category_id') : collect();
+        $userSkillIds = $user ? $user->userSkills()->pluck('skill_id') : collect();
 
         $query->where(function ($q) use ($userCategoryIds, $userSubCategoryIds, $userSkillIds) {
             $hasInterests = $userCategoryIds->isNotEmpty()

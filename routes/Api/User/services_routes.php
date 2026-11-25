@@ -3,10 +3,13 @@
 use App\Http\Controllers\Api\Service\ServiceController;
 use Illuminate\Support\Facades\Route;
 
+// "Services for you": public (guest mode) with an optional token; guests and
+// users without interests get the approved services.
+Route::get('services/interests', [ServiceController::class, 'indexInterests'])->middleware('auth.optional');
+
 Route::prefix('services')->middleware('auth:api')->group(callback: function () {
     Route::get('/', [ServiceController::class, 'index']); 
     Route::get('/my-services', [ServiceController::class, 'indexUserServices']);
-    Route::get('/interests', [ServiceController::class, 'indexInterests']);
     Route::post('/add', [ServiceController::class, 'store']);
     Route::prefix('{service}')->group(function () {
         Route::get('/', [ServiceController::class, 'show']);

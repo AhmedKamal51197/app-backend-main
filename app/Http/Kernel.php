@@ -10,6 +10,7 @@ use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsValidInvitationMiddleware;
 use App\Http\Middleware\Localization;
+use App\Http\Middleware\OptionalApiAuth;
 use App\Http\Middleware\PublicContent;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -109,6 +110,7 @@ class Kernel extends HttpKernel
         'active'=> ActiveMiddleware::class,
         'permission' => CheckPermissions::class,
         'public.content' => PublicContent::class,
+        'auth.optional' => OptionalApiAuth::class,
         'role' => RoleMiddleware::class,
     ];
 }
