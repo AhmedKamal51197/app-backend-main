@@ -7,12 +7,17 @@ use Illuminate\Support\Facades\Route;
 // users without interests get the approved services.
 Route::get('services/interests', [ServiceController::class, 'indexInterests'])->middleware('auth.optional');
 
+// Service details are public too (a guest opens a card from the home page).
+// whereUuid keeps fixed paths like /my-services out of this route.
+Route::get('services/{service}', [ServiceController::class, 'show'])
+    ->whereUuid('service')
+    ->middleware('auth.optional');
+
 Route::prefix('services')->middleware('auth:api')->group(callback: function () {
     Route::get('/', [ServiceController::class, 'index']); 
     Route::get('/my-services', [ServiceController::class, 'indexUserServices']);
     Route::post('/add', [ServiceController::class, 'store']);
     Route::prefix('{service}')->group(function () {
-        Route::get('/', [ServiceController::class, 'show']);
         Route::post('/edit', [ServiceController::class, 'edit']);
         Route::delete('delete', [ServiceController::class, 'delete']);
         Route::prefix('attachments')->group(callback: function () {

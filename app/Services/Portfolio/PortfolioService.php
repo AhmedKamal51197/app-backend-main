@@ -57,9 +57,9 @@ class PortfolioService
      * @return Portfolio
      * @throws Exception
      */
-    public function show(Portfolio $portfolio, User $user): Portfolio
+    public function show(Portfolio $portfolio, ?User $user): Portfolio
     {
-        if ($portfolio->user_id !== $user->id && $portfolio->hidden) {
+        if ($portfolio->hidden && $portfolio->user_id !== $user?->id) {
             throw new Exception(__('Portfolio is not available'));
         }
 
