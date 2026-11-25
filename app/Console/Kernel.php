@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('exchange-rates:update')->daily();
         $schedule->command('tap:sync')->everyFiveMinutes()->withoutOverlapping();
+        // Remove expired sign-ups that never confirmed their email OTP.
+        $schedule->command('model:prune', ['--model' => [\App\Models\PendingRegistration::class]])->daily();
     }
 
     /**

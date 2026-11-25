@@ -475,5 +475,9 @@
     "At least one sub category must be selected": "At least one sub category must be selected.",
     "Each sub category ID is required": "Each sub category ID is required.",
     "Each sub category ID must be a string": "Each sub category ID must be a string.",
-    "One or more selected sub categories do not exist": "One or more selected sub categories do not exist."
+    "One or more selected sub categories do not exist": "One or more selected sub categories do not exist.",
+    "Too many wrong attempts, please request a new code": "Too many wrong attempts, please request a new code",
+    "The code has expired, please request a new code": "The code has expired, please request a new code",
+    "No pending registration for this email, please register again": "No pending registration for this email, please register again",
+    "Please wait :seconds seconds before requesting a new code": "Please wait :seconds seconds before requesting a new code"
 }

@@ -491,9 +491,13 @@
     "Each sub category ID is required": "معرف الفئة الفرعية مطلوب",
     "Each sub category ID must be a string": "يجب أن يكون كل معرف فئة فرعية نصًا",
     "One or more selected sub categories do not exist": "واحد أو أكثر من الفئات الفرعية المحددة غير موجود",
-    "Revisions are required" : "عدد المراجعات مطلوب",
-    "Revisions must be a number" : "عدد المراجعات يجب ان يكون رقماً",
-    "Revisions must be at least 1" : "عدد المراجعات يجب ان يكون مرة على الاٌقل",
-    "Price must be at least 10" : "السعر يجب ان يكون ١٠ على الاقل",
-    "Time must be at least 10" : "الوقت لا يمكن ان يقل عن يوم"
+    "Revisions are required": "عدد المراجعات مطلوب",
+    "Revisions must be a number": "عدد المراجعات يجب ان يكون رقماً",
+    "Revisions must be at least 1": "عدد المراجعات يجب ان يكون مرة على الاٌقل",
+    "Price must be at least 10": "السعر يجب ان يكون ١٠ على الاقل",
+    "Time must be at least 10": "الوقت لا يمكن ان يقل عن يوم",
+    "Too many wrong attempts, please request a new code": "محاولات خاطئة كثيرة، اطلب رمزًا جديدًا",
+    "The code has expired, please request a new code": "انتهت صلاحية الرمز، اطلب رمزًا جديدًا",
+    "No pending registration for this email, please register again": "لا يوجد تسجيل قيد التأكيد لهذا البريد، سجّل من جديد",
+    "Please wait :seconds seconds before requesting a new code": "انتظر :seconds ثانية قبل طلب رمز جديد"
 }

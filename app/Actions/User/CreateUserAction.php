@@ -26,7 +26,8 @@ class CreateUserAction
             $user = User::create([
                 'name' => Arr::get($input, 'name'),
                 'email' => Arr::get($input, 'email'),
-                'password' => bcrypt(Arr::get($input, 'password')),
+                // The two-step sign-up passes the password already hashed.
+                'password' => Arr::get($input, 'password_hash') ?? bcrypt(Arr::get($input, 'password')),
                 'status' => UserStatusEnum::ACTIVE->value,
                 'active' => true,
                 'country_id' => Arr::get($input, 'country_id'),
@@ -34,6 +35,10 @@ class CreateUserAction
                 'fcm_token' => Arr::get($input, 'fcm_token')
             ]);
             $user->assignRole(Arr::get($input, 'role'));
+
+            if (Arr::get($input, 'email_verified_at')) {
+                $user->forceFill(['email_verified_at' => Arr::get($input, 'email_verified_at')])->save();
+            }
 
             DB::commit();
 
