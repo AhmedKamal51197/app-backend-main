@@ -105,7 +105,8 @@ class ServiceController extends BaseApiController
             abort(404);
         }
 
-        $service->load(['attachments', 'category', 'skills', 'skills.skill', 'packages', 'subCategory']);
+        // The provider (with id) lets the app open the freelancer profile.
+        $service->load(['attachments', 'category', 'skills', 'skills.skill', 'packages', 'subCategory', 'user', 'user.avatar', 'user.category']);
 
         return $this->jsonSuccess(ServiceResource::make($service));
     }
